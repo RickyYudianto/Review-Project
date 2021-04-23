@@ -1,3 +1,5 @@
+/.idea
+
 /client/coverage
 /client/build
 /client/node_modules

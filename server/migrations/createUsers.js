@@ -1,9 +1,8 @@
-"use strict";
-const constants = require('../constants/tableName.constants');
+'use strict';
 
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable(constants.USERS, {
+        return queryInterface.createTable('users', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
@@ -30,7 +29,7 @@ module.exports = {
                 onDelete: 'CASCADE',
                 references: {
                     model: {
-                        tableName: constants.USER_TYPES,
+                        tableName: 'user_types',
                     },
                     key: 'id'
                 }
@@ -48,6 +47,6 @@ module.exports = {
         });
     },
     down: (queryInterface, Sequelize) => {
-        return queryInterface.dropTable(constants.USERS);
+        return queryInterface.dropTable('users');
     }
 };

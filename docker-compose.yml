@@ -15,8 +15,10 @@ services:
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
       MYSQL_ROOT_PASSWORD: root
+    expose:
+      - 3307
     ports:
-      - 3306:3306
+      - 3307:3306
     restart: always
     volumes:
       - ./db/sample.sql:/docker-entrypoint-initdb.d/sample.sql

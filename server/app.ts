@@ -1,7 +1,7 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const routes = require('./routes');
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import express from 'express';
+import routes from './routes';
 
 const app = express();
 app.use(bodyParser.json());
@@ -18,4 +18,4 @@ app.use((req, res, next) => {
 });
 app.use(express.urlencoded({ extended: false }));
 
-module.exports = app;
+export default app;
