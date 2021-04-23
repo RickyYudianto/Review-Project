@@ -6,7 +6,7 @@ module.exports = {
             {
                 id: 1,
                 email: 'email@gmail.com',
-                password: '$2y$10$qEzQUM6/ME.9ymTZxQJQNOqIDeDBuZv4lBPkDzMPrU4w96kUTjUQO ',
+                password: '$2a$10$EcfTW.aZxV3TLk9hyC/J4e5G86q/I9Wt5GC6jW./WzFsv0ExBfACm',
                 name: 'admin',
                 is_active: 1,
                 type_id: 1,
@@ -16,7 +16,7 @@ module.exports = {
             {
                 id: 2,
                 email: 'employee1@gmail.com',
-                password: '$2y$10$qEzQUM6/ME.9ymTZxQJQNOqIDeDBuZv4lBPkDzMPrU4w96kUTjUQO ',
+                password: '$2a$10$EcfTW.aZxV3TLk9hyC/J4e5G86q/I9Wt5GC6jW./WzFsv0ExBfACm',
                 name: 'employee 1',
                 is_active: 1,
                 type_id: 2,
