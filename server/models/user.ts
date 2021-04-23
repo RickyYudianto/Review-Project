@@ -73,7 +73,7 @@ export default class User extends Model {
     }
   }
 
-  static validPassword(password: string, comparedPassword: string) {
-    return bcrypt.compareSync(password, comparedPassword);
+  validPassword(password: string) {
+    return bcrypt.compareSync(password, this.password);
   }
 }
