@@ -24,7 +24,7 @@ const sequelize = new Sequelize({
     idle: 10000
   },
   models: [ User, UserType ],
-  logging: env.logging
+  logging: env.logging,
 });
 
 export default sequelize;

@@ -1,5 +1,6 @@
 'use strict';
-import { BelongsTo, Column, ForeignKey, Model, Table } from 'sequelize-typescript';
+import bcrypt from 'bcrypt';
+import { BeforeCreate, BeforeUpdate, BelongsTo, Column, ForeignKey, Model, Table } from 'sequelize-typescript';
 import UserType from './userType';
 
 @Table({
@@ -60,5 +61,19 @@ export default class User extends Model {
 
   public set userType(value: UserType) {
     this.setDataValue('userType', value);
+  }
+
+  @BeforeCreate
+  @BeforeUpdate
+  static hashPassword(user: User) {
+    if (user.password) {
+      const saltRounds = 10;
+      const salt = bcrypt.genSaltSync(saltRounds);
+      user.password = bcrypt.hashSync(user.password, salt);
+    }
+  }
+
+  static validPassword(password: string, comparedPassword: string) {
+    return bcrypt.compareSync(password, comparedPassword);
   }
 }

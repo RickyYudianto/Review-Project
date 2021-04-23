@@ -1,4 +1,5 @@
 import { sign, verify } from 'jsonwebtoken';
+import omit from 'lodash/omit';
 import env from '../config/env';
 import User from '../models/user';
 import UserType from '../models/userType';
@@ -11,13 +12,12 @@ export default class AuthController {
 
     const user = await User.findOne({
       where: {
-        email, password
+        email
       },
-      attributes: { exclude: ['password'] },
       include: UserType
     });
 
-    if (user) {
+    if (user && User.validPassword(password, user.password)) {
       const { id } = user;
       const loggedInAt = new Date();
       const accessToken = sign({ id, loggedInAt }, env.accessTokenSecret, { expiresIn: 86400 });
@@ -25,8 +25,10 @@ export default class AuthController {
 
       this.refreshTokens.push(refreshToken);
 
+      const omittedUser = omit(user.toJSON(), ['password']);
+
       res.json({
-        user,
+        user: omittedUser,
         accessToken,
         refreshToken
       });
