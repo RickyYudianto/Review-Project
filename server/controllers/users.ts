@@ -1,7 +1,6 @@
-import { Repository } from 'sequelize-typescript';
+import sequelize from '../models';
 import User from '../models/user';
-import UserType from "../models/userType";
-import sequelize from "../models";
+import UserType from '../models/userType';
 
 export default class UserController {
 

@@ -1,6 +1,6 @@
 'use strict';
 import { Table, Column, Model, HasMany } from 'sequelize-typescript';
-import User from "./user";
+import User from './user';
 
 @Table({
   tableName: 'user_types',

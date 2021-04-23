@@ -2,8 +2,8 @@
 
 import { Sequelize } from 'sequelize-typescript'
 import config from '../config/config.json';
-import User from "./user";
-import UserType from "./userType";
+import User from './user';
+import UserType from './userType';
 
 const env = process.env.NODE_ENV === 'production' ? config.production : config.development;
 

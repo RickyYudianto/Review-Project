@@ -1,5 +1,5 @@
 'use strict';
-import { Table, Column, Model, ForeignKey, BelongsTo, Scopes } from 'sequelize-typescript';
+import { Table, Column, Model, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import UserType from './userType';
 
 @Table({
