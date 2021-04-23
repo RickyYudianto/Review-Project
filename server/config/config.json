@@ -5,7 +5,10 @@
     "database": "reviewdb",
     "host": "localhost",
     "dialect": "mysql",
-    "port": 3306
+    "port": 3306,
+    "accessTokenSecret": "supersecret",
+    "refreshTokenSecret": "refreshsupersecret",
+    "logging": true
   },
   "production": {
     "username": "root",
@@ -13,6 +16,9 @@
     "database": "reviewdb",
     "host": "mysql",
     "dialect": "mysql",
-    "port": 3306
+    "port": 3306,
+    "accessTokenSecret": "supersecret",
+    "refreshTokenSecret": "refreshsupersecret",
+    "logging": false
   }
 }

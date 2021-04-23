@@ -1,6 +1,7 @@
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
+import sequelize from './models';
 import routes from './routes';
 
 const app = express();
@@ -17,5 +18,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use(express.urlencoded({ extended: false }));
+
+sequelize.sync();
 
 export default app;

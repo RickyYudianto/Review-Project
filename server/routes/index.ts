@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { Express } from 'express-serve-static-core';
+import auth from './auth';
 import users from './users';
 
 const router = Router();
@@ -14,6 +15,7 @@ router.get('*', (req, res) => {
 
 const route = (app: Express) => {
   app.use('/users', users);
+  app.use('/auth', auth);
   app.use('/', router);
 };
 
