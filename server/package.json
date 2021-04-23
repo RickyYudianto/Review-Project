@@ -1,0 +1,46 @@
+{
+  "name": "server",
+  "description": "Server",
+  "version": "1.0.0",
+  "scripts": {
+    "lint": "eslint .",
+    "db:migration:undo": "sequelize db:migrate:undo:all",
+    "db:migration": "sequelize db:migrate",
+    "db:seed:undo": "sequelize db:seed:undo:all",
+    "db:seed": "sequelize db:seed:all",
+    "start": "nodemon index.js",
+    "server:init": "yarn db:migration && yarn db:seed && yarn start",
+    "db:migration:undo:prod": "cross-env NODE_ENV=production sequelize db:migrate:undo:all",
+    "db:migration:prod": "cross-env NODE_ENV=production sequelize db:migrate",
+    "db:seed:undo:prod": "cross-env NODE_ENV=production sequelize db:seed:undo:all",
+    "db:seed:prod": "cross-env NODE_ENV=production sequelize db:seed:all",
+    "start:prod": "cross-env NODE_ENV=production nodemon index.js",
+    "server:init:prod": "yarn db:migration:prod && yarn db:seed:prod && yarn start:prod"
+  },
+  "engines": {
+    "node": ">=12.13.0"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "date-fns": "^2.16.1",
+    "date-fns-timezone": "^0.1.4",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "lodash": "^4.17.20",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.2.5",
+    "nodemon": "^2.0.7",
+    "path": "^0.12.7",
+    "sequelize": "^6.5.0",
+    "sequelize-cli": "^6.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.12.0",
+    "eslint-plugin-promise": "^4.0.1"
+  },
+  "private": true
+}
