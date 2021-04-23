@@ -20,8 +20,8 @@ module.exports = (sequelize, DataTypes) => {
 
     UserTypes.up = (queryInterface, Sequelize) => {
         return queryInterface.bulkInsert(constants.USER_TYPES, [
-            { name : 'admin', createdAt : new Date(), updatedAt : new Date() },
-            { name : 'employee', createdAt : new Date(), updatedAt : new Date() },
+            { id: 1, name : 'admin', createdAt : new Date(), updatedAt : new Date() },
+            { id: 2, name : 'employee', createdAt : new Date(), updatedAt : new Date() },
         ]);
     }
     UserTypes.down = (queryInterface, Sequelize) => {

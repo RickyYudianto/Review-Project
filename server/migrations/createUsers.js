@@ -27,6 +27,7 @@ module.exports = {
                 type: Sequelize.INTEGER,
                 allowNull: false,
                 field: 'type_id',
+                onDelete: 'CASCADE',
                 references: {
                     model: {
                         tableName: constants.USER_TYPES,
