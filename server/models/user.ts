@@ -1,5 +1,5 @@
 'use strict';
-import { Table, Column, Model, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import { BelongsTo, Column, ForeignKey, Model, Table } from 'sequelize-typescript';
 import UserType from './userType';
 
 @Table({
@@ -54,10 +54,11 @@ export default class User extends Model {
   }
 
   @BelongsTo(() => UserType)
-  public get userType() : UserType {
+  public get userType(): UserType {
     return this.getDataValue('userType');
   }
-  public set userType(value : UserType) {
+
+  public set userType(value: UserType) {
     this.setDataValue('userType', value);
   }
 }

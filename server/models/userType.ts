@@ -1,5 +1,5 @@
 'use strict';
-import { Table, Column, Model, HasMany } from 'sequelize-typescript';
+import { Column, HasMany, Model, Table } from 'sequelize-typescript';
 import User from './user';
 
 @Table({
@@ -17,10 +17,11 @@ export default class UserType extends Model {
   }
 
   @HasMany(() => User)
-  public get users() : User[] {
+  public get users(): User[] {
     return this.getDataValue('users');
   }
-  public set users(v : User[]) {
+
+  public set users(v: User[]) {
     this.setDataValue('users', v);
   }
 }

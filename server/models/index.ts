@@ -27,7 +27,7 @@ const sequelize = new Sequelize({
     min: 0,
     idle: 10000
   },
-  models: [User, UserType]
+  models: [ User, UserType ]
 });
 
 sequelize.sync();

@@ -5,11 +5,11 @@ import users from './users';
 const router = Router();
 
 router.get('/', (req, res) => {
-  res.status(200).json({message: 'Welcome to the API'});
+  res.status(200).json({ message: 'Welcome to the API' });
 });
 
 router.get('*', (req, res) => {
-  res.json({err: 'not found'})
+  res.json({ err: 'not found' })
 });
 
 const route = (app: Express) => {
