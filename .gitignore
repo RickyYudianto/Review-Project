@@ -14,5 +14,7 @@
 /client/generated-cra-app
 /client/.cra-template-rb
 /client/template
+/client/yarn-error.log
 
 /server/node_modules
+/server/yarn-error.log
