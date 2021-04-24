@@ -89,7 +89,11 @@ export function EmployeeListPage() {
           );
           onCloseConfirmationDialog();
           dispatch(userActions.selectAll(ids));
-          dispatch(userActions.setPage(1));
+          if (page === 1) {
+            fetchList();
+          } else {
+            dispatch(userActions.setPage(1));
+          }
         })
         .catch(() =>
           enqueueSnackbar(
@@ -102,7 +106,7 @@ export function EmployeeListPage() {
           ),
         );
     },
-    [dispatch, enqueueSnackbar, onCloseConfirmationDialog, t],
+    [dispatch, enqueueSnackbar, fetchList, onCloseConfirmationDialog, page, t],
   );
 
   const onHandleChangePage = page => {

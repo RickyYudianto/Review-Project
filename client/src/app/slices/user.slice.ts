@@ -19,6 +19,9 @@ const userSlice = createSlice({
     setList(state, action: PayloadAction<User[]>) {
       state.users = action.payload;
     },
+    setInitialFormValue(state) {
+      state.formValue = { ...state.formValue, ...new User() };
+    },
     setFormValue(state, action: PayloadAction<User>) {
       state.formValue = action.payload;
     },
@@ -40,7 +43,9 @@ const userSlice = createSlice({
       if (findId.length > 0) {
         state.selected = [...cloneSelected, ...findId];
       } else {
-        state.selected = cloneSelected.filter(id => findId.indexOf(id) > -1);
+        state.selected = cloneSelected.filter(
+          id => action.payload.indexOf(id) < 0,
+        );
       }
     },
     setTotalData(state, action: PayloadAction<number>) {

@@ -61,54 +61,69 @@ export function EmployeeDetailPage() {
     [dispatch, formValue],
   );
 
-  const onAddUser = user => {
-    createUser(user)
-      .then(result =>
-        enqueueSnackbar(
-          t(translations.MESSAGE.ADD_EMPLOYEE_SUCCESS, {
-            employee: user.name,
-          }),
-          {
-            variant: 'success',
-          },
-        ),
-      )
-      .catch(() =>
-        enqueueSnackbar(
-          t(translations.MESSAGE.ADD_EMPLOYEE_FAILED, {
-            employee: user.name,
-          }),
-          {
-            variant: 'error',
-          },
-        ),
-      );
-  };
+  const onResetFormValue = useCallback(() => {
+    dispatch(userActions.setInitialFormValue());
+  }, [dispatch]);
 
-  const onUpdateUser = user => {
-    updateUser(user)
-      .then(() => {
-        enqueueSnackbar(
-          t(translations.MESSAGE.EDIT_EMPLOYEE_SUCCESS, {
-            employee: user.name,
-          }),
-          {
-            variant: 'success',
-          },
+  const onBack = useCallback(() => {
+    history.push(`${PathConstant.HOME}${PathConstant.EMPLOYEE}`);
+  }, [history]);
+
+  const onAddUser = useCallback(
+    user => {
+      createUser(user)
+        .then(result => {
+          onResetFormValue();
+          enqueueSnackbar(
+            t(translations.MESSAGE.ADD_EMPLOYEE_SUCCESS, {
+              employee: user.name,
+            }),
+            {
+              variant: 'success',
+            },
+          );
+        })
+        .catch(() =>
+          enqueueSnackbar(
+            t(translations.MESSAGE.ADD_EMPLOYEE_FAILED, {
+              employee: user.name,
+            }),
+            {
+              variant: 'error',
+            },
+          ),
         );
-        onBack();
-      })
-      .catch(() =>
-        enqueueSnackbar(
-          t(translations.MESSAGE.EDIT_EMPLOYEE_FAILED, {
-            employee: user.name,
-          }),
-          {
-            variant: 'error',
-          },
-        ),
-      );
-  };
+    },
+    [enqueueSnackbar, onResetFormValue, t],
+  );
+
+  const onUpdateUser = useCallback(
+    user => {
+      updateUser(user)
+        .then(() => {
+          enqueueSnackbar(
+            t(translations.MESSAGE.EDIT_EMPLOYEE_SUCCESS, {
+              employee: user.name,
+            }),
+            {
+              variant: 'success',
+            },
+          );
+          onBack();
+        })
+        .catch(() =>
+          enqueueSnackbar(
+            t(translations.MESSAGE.EDIT_EMPLOYEE_FAILED, {
+              employee: user.name,
+            }),
+            {
+              variant: 'error',
+            },
+          ),
+        );
+    },
+    [enqueueSnackbar, onBack, t],
+  );
 
   const onSubmit = useCallback(() => {
     if (params.id) {
@@ -116,17 +131,15 @@ export function EmployeeDetailPage() {
     } else {
       onAddUser(formValue);
     }
-  }, [formValue, params.id]);
-
-  const onBack = useCallback(() => {
-    history.push(`${PathConstant.HOME}${PathConstant.EMPLOYEE}`);
-  }, [history]);
+  }, [formValue, onAddUser, onUpdateUser, params.id]);
 
   useEffect(() => {
     if (params.id) {
       fetchUserData();
+    } else {
+      onResetFormValue();
     }
-  }, [fetchUserData, params.id]);
+  }, [fetchUserData, onResetFormValue, params.id]);
 
   return (
     <>
