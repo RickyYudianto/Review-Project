@@ -8,6 +8,7 @@
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 
+import { SnackbarProvider } from 'notistack';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -34,7 +35,9 @@ ReactDOM.render(
   <Provider store={store}>
     <HelmetProvider>
       {/*<React.StrictMode>*/}
-      <App />
+      <SnackbarProvider maxSnack={3} autoHideDuration={3000}>
+        <App />
+      </SnackbarProvider>
       {/*</React.StrictMode>*/}
     </HelmetProvider>
   </Provider>,

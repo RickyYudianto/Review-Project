@@ -3,7 +3,7 @@ import Box from '@material-ui/core/Box';
 import FormControl from '@material-ui/core/FormControl';
 import { dangerColor } from '../../../styles/color';
 
-export const ActionWrapper = styled(withTheme(Box))(props => ({
+export const ActionWrapper = styled(withTheme(Box))({
   paddingTop: 8,
   paddingBottom: 8,
   paddingLeft: '0 !important',
@@ -13,7 +13,7 @@ export const ActionWrapper = styled(withTheme(Box))(props => ({
   flexDirection: 'row',
   alignContent: 'center',
   width: '100%',
-}));
+});
 
 export const ErrorWrapper = styled(Box)({
   height: 30,
@@ -24,6 +24,7 @@ export const ErrorWrapper = styled(Box)({
 });
 
 export const FormControlWrapper = styled(withTheme(FormControl))(props => ({
+  width: '100%',
   marginTop: props.theme.spacing(3),
 }));
 

@@ -8,7 +8,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import classNames from 'classnames';
 import clsx from 'clsx';
 import React from 'react';
@@ -100,7 +99,7 @@ export function Sidebar(props: IProps) {
   const classes = useStyles();
 
   const activeRoute = (routeName: any) => {
-    return location.pathname.indexOf(routeName) > -1;
+    return location.pathname.includes(routeName);
   };
 
   const links = (
@@ -161,7 +160,7 @@ export function Sidebar(props: IProps) {
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <div className={classes.toolbarIcon}>
           <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
+            <Icon>chevron_left</Icon>
           </IconButton>
         </div>
       </Box>

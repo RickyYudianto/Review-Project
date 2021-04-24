@@ -21,8 +21,7 @@ const tableStyle = makeStyles((theme: Theme) => ({
     borderCollapse: 'collapse',
   },
   tableHeadCell: {
-    color: theme.palette.common.white,
-    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.main,
     fontSize: '1em',
     left: 'unset',
     top: '-1px',
@@ -47,7 +46,7 @@ const tableStyle = makeStyles((theme: Theme) => ({
 }));
 
 interface IProps {
-  tableHead: string[];
+  tableHead: any[];
   tableData: any[][];
   totalData: number;
   page: number;

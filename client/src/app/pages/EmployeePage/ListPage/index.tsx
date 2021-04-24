@@ -1,22 +1,30 @@
+import Box from '@material-ui/core/Box';
+import Checkbox from '@material-ui/core/Checkbox';
+import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import CheckIcon from '@material-ui/icons/Check';
-import ClearIcon from '@material-ui/icons/Clear';
-import React, { useCallback, useEffect } from 'react';
+import { useSnackbar } from 'notistack';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { translations } from '../../../../locales/translations';
 import { useInjectReducer } from '../../../../utils/redux-injectors';
+import { DefaultButton } from '../../../components/Button';
+import ConfirmationDialog from '../../../components/Dialog/ConfirmationDialog';
 import CustomTable from '../../../components/Table';
+import { PathConstant } from '../../../constants/path.constant';
 import { fromJsonToArrayOfObject } from '../../../helpers/class-transformer.helper';
 import User from '../../../models/user.model';
 import {
   selectPage,
+  selectSelected,
   selectSize,
   selectTotalData,
   selectUsers,
 } from '../../../selectors/user.selector';
-import { getAllUser } from '../../../services/user.service';
+import { deleteUser, getAllUser } from '../../../services/user.service';
 import {
   actions as userActions,
   reducer as userReducer,
@@ -35,13 +43,26 @@ const useStyles = makeStyles(theme => ({
 export function EmployeeListPage() {
   useInjectReducer({ key: userSliceKey, reducer: userReducer });
   const dispatch = useDispatch();
+  const history = useHistory();
+  const { enqueueSnackbar } = useSnackbar();
   const classes = useStyles();
   const { t } = useTranslation();
 
   const users = useSelector(selectUsers);
+  const selected = useSelector(selectSelected);
   const page = useSelector(selectPage);
   const size = useSelector(selectSize);
   const totalData = useSelector(selectTotalData);
+
+  const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+
+  const onOpenConfirmationDialog = useCallback(() => {
+    setOpenConfirmationDialog(true);
+  }, []);
+
+  const onCloseConfirmationDialog = useCallback(() => {
+    setOpenConfirmationDialog(false);
+  }, []);
 
   const fetchList = useCallback(() => {
     getAllUser({
@@ -54,12 +75,50 @@ export function EmployeeListPage() {
     });
   }, [dispatch, page, size]);
 
+  const onDelete = useCallback(
+    ids => {
+      deleteUser(ids)
+        .then(() => {
+          enqueueSnackbar(
+            t(translations.MESSAGE.DELETE_EMPLOYEE_SUCCESS, {
+              total: ids.length,
+            }),
+            {
+              variant: 'success',
+            },
+          );
+          onCloseConfirmationDialog();
+          dispatch(userActions.selectAll(ids));
+          dispatch(userActions.setPage(1));
+        })
+        .catch(() =>
+          enqueueSnackbar(
+            t(translations.MESSAGE.DELETE_EMPLOYEE_FAILED, {
+              total: ids.length,
+            }),
+            {
+              variant: 'error',
+            },
+          ),
+        );
+    },
+    [dispatch, enqueueSnackbar, onCloseConfirmationDialog, t],
+  );
+
   const onHandleChangePage = page => {
     dispatch(userActions.setPage(page));
   };
 
   const onHandleChangeSize = size => {
     dispatch(userActions.setSize(size));
+  };
+
+  const onHandleCheck = id => {
+    dispatch(userActions.setSelected(id));
+  };
+
+  const onHandleCheckAll = ids => {
+    dispatch(userActions.selectAll(ids));
   };
 
   useEffect(() => {
@@ -75,31 +134,87 @@ export function EmployeeListPage() {
           content={t(translations.PAGE_TITLE.EMPLOYEE_PAGE)}
         />
       </Helmet>
-      <CustomTable
-        tableHead={[
-          t(translations.LABEL.NAME),
-          t(translations.LABEL.EMAIL_ADDRESS),
-          t(translations.LABEL.ACTIVE),
-          t(translations.LABEL.TYPE),
-        ]}
-        tableData={users.map(user => {
-          return [
-            user.name,
-            user.email,
-            user.isActive ? (
-              <CheckIcon className={classes.checkIcon} />
-            ) : (
-              <ClearIcon className={classes.clearIcon} />
-            ),
-            user.userType.name,
-          ];
+      <ConfirmationDialog
+        contentText={t(translations.MESSAGE.DELETE_EMPLOYEE_CONFIRMATION, {
+          total: selected.length,
         })}
-        totalData={totalData}
-        page={page}
-        size={size}
-        handleChangePage={page => onHandleChangePage(page)}
-        handleChangeSize={size => onHandleChangeSize(size)}
+        open={openConfirmationDialog}
+        handleClose={onCloseConfirmationDialog}
+        handleConfirm={() => onDelete(selected)}
       />
+      <div>
+        <Box display="flex" justifyContent="space-between">
+          <DefaultButton
+            color="secondary"
+            variant="contained"
+            onClick={onOpenConfirmationDialog}
+            disabled={selected.length === 0}
+          >
+            <Icon>delete</Icon>
+            {t(translations.LABEL.DELETE)}
+          </DefaultButton>
+          <DefaultButton
+            color="primary"
+            variant="contained"
+            onClick={() =>
+              history.push(
+                `${PathConstant.HOME}${PathConstant.EMPLOYEE}${PathConstant.ADD}`,
+              )
+            }
+          >
+            <Icon>add</Icon>
+            {t(translations.LABEL.ADD)}
+          </DefaultButton>
+        </Box>
+        <CustomTable
+          tableHead={[
+            <Checkbox
+              color="primary"
+              checked={
+                users.filter(user => selected.find(id => user.id === id))
+                  .length === users.length
+              }
+              onChange={() => onHandleCheckAll(users.map(user => user.id))}
+            />,
+            t(translations.LABEL.EDIT),
+            t(translations.LABEL.NAME),
+            t(translations.LABEL.EMAIL_ADDRESS),
+            t(translations.LABEL.ACTIVE),
+            t(translations.LABEL.TYPE),
+          ]}
+          tableData={users.map(user => {
+            return [
+              <Checkbox
+                color="primary"
+                checked={selected.findIndex(id => id === user.id) > -1}
+                onChange={() => onHandleCheck(user.id)}
+              />,
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    `${PathConstant.HOME}${PathConstant.EMPLOYEE}/${user.id}${PathConstant.EDIT}`,
+                  )
+                }
+              >
+                <Icon>edit</Icon>
+              </IconButton>,
+              user.name,
+              user.email,
+              user.isActive ? (
+                <Icon className={classes.checkIcon}>check</Icon>
+              ) : (
+                <Icon className={classes.clearIcon}>clear</Icon>
+              ),
+              user.userType?.name,
+            ];
+          })}
+          totalData={totalData}
+          page={page}
+          size={size}
+          handleChangePage={page => onHandleChangePage(page)}
+          handleChangeSize={size => onHandleChangeSize(size)}
+        />
+      </div>
     </>
   );
 }

@@ -1,10 +1,10 @@
 import { makeStyles } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
+import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import ExitToApp from '@material-ui/icons/ExitToApp';
-import MenuIcon from '@material-ui/icons/Menu';
 import clsx from 'clsx';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -71,7 +71,7 @@ export function Navbar(props: IProps) {
             openDrawer && classes.menuButtonHidden,
           )}
         >
-          <MenuIcon />
+          <Icon>menu</Icon>
         </IconButton>
         <Typography
           component="h1"

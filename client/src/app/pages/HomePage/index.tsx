@@ -49,13 +49,25 @@ const filterRoutes = userType =>
 const switchRoutes = userType => (
   <Switch>
     {filterRoutes(userType).map((prop, key) => (
-      <Route
-        path={prop.base + prop.path}
-        component={prop.component}
-        key={key}
-      />
+      <React.Fragment key={key}>
+        <Route
+          exact
+          path={`${prop.base}${prop.path}`}
+          component={prop.component}
+          key={key}
+        />
+        {prop.subRoute
+          ? prop.subRoute.map((subRouteProp, subRouteKey) => (
+              <Route
+                path={`${prop.base}${prop.path}${subRouteProp.path}`}
+                component={subRouteProp.component}
+                key={subRouteKey}
+              />
+            ))
+          : null}
+      </React.Fragment>
     ))}
-    <Route path={PathConstant.HOME + '/*'} component={NotFoundPage} />
+    <Route path={`${PathConstant.HOME}/*`} component={NotFoundPage} />
   </Switch>
 );
 
@@ -72,7 +84,7 @@ export function HomePage() {
   const makeBrand = () => {
     let name = '';
     filterRoutes(user?.userType.id).forEach((prop: any) => {
-      if (prop.base + prop.path === location.pathname) {
+      if (location.pathname.includes(prop.base + prop.path)) {
         name = prop.name;
         return;
       }

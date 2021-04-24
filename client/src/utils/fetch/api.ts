@@ -48,6 +48,8 @@ export function putRequest(props: any) {
   const { url, params, headers } = props;
   const endpointUrl = `${EndpointConstant.BASE_API_URL}${url}`;
 
+  console.log(JSON.stringify(params));
+
   return request(endpointUrl, {
     method: 'PUT',
     mode: 'cors',
@@ -56,7 +58,7 @@ export function putRequest(props: any) {
       'x-access-token': cookies.get(ACCESS_TOKEN_COOKIE_NAME) || null,
       ...headers,
     },
-    body: params,
+    body: JSON.stringify(params),
   });
 }
 
@@ -71,6 +73,6 @@ export function deleteRequest(props: any) {
       'x-access-token': cookies.get(ACCESS_TOKEN_COOKIE_NAME) || null,
       ...headers,
     },
-    body: params,
+    body: JSON.stringify(params),
   });
 }

@@ -2,16 +2,32 @@
   "LABEL": {
     "ACTIVE": "Active",
     "ADD": "Add",
+    "ADMIN": "Admin",
+    "CANCEL": "Cancel",
     "DELETE": "Delete",
+    "DELETE_CONFIRMATION": "Delete Confirmation",
     "EDIT": "Edit",
     "EMAIL_ADDRESS": "Email Address",
+    "EMPLOYEE": "Employee",
+    "INACTIVE": "Inactive",
     "LOGIN": "Login",
     "LOGOUT": "Logout",
     "NAME": "Name",
+    "NO": "No",
+    "SAVE": "Save",
+    "STATUS": "Status",
     "TYPE": "Type",
-    "WELCOME": "Welcome"
+    "WELCOME": "Welcome",
+    "YES": "Yes"
   },
   "MESSAGE": {
+    "ADD_EMPLOYEE_FAILED": "Failed to add employee {{employee}}",
+    "ADD_EMPLOYEE_SUCCESS": "Success to add employee {{employee}}",
+    "DELETE_EMPLOYEE_CONFIRMATION": "Are you sure you want to delete {{total}} employee(s)?",
+    "DELETE_EMPLOYEE_FAILED": "Failed to delete {{total}} employee(s)",
+    "DELETE_EMPLOYEE_SUCCESS": "Success to delete {{total}} employee(s)",
+    "EDIT_EMPLOYEE_FAILED": "Failed to edit employee {{employee}}",
+    "EDIT_EMPLOYEE_SUCCESS": "Success to edit employee {{employee}}",
     "INCORRECT_EMAIL_ADDRESS_OR_PASSWORD": "Incorrect email address or password"
   },
   "PAGE_TITLE": {
@@ -21,6 +37,8 @@
   },
   "PLACEHOLDER": {
     "EMAIL_ADDRESS": "Email Address",
+    "EMPLOYEE_EMAIL_ADDRESS": "Type Employee Email Address",
+    "EMPLOYEE_NAME": "Type Employee Name",
     "PASSWORD": "Password"
   }
 }
