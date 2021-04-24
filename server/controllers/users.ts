@@ -1,4 +1,3 @@
-import sequelize from '../models';
 import User from '../models/user';
 import UserType from '../models/userType';
 
@@ -16,6 +15,54 @@ export default class UserController {
         totalData: result.count
       };
       res.json(data);
+    });
+  }
+
+  getUserById = (req: any, res: any) => {
+    const { id } = req.params;
+    User.findByPk(id,{
+      include: UserType,
+    }).then((result) => {
+      res.json(result);
+    });
+  }
+
+  createUser = (req: any, res: any) => {
+    const { email, name, isActive, userType } = req.body;
+    User.create({
+      email,
+      name,
+      isActive,
+      typeId: userType.id
+    }).then((result) => {
+      res.json(result);
+    });
+  }
+
+  updateUser = (req: any, res: any) => {
+    const { id, email, name, isActive, userType } = req.body;
+    User.update({
+      email,
+      name,
+      isActive,
+      typeId: userType.id
+    }, {
+      where: {
+        id
+      }
+    }).then((result) => {
+      res.json(result);
+    });
+  }
+
+  deleteUser = (req: any, res: any) => {
+    const { id } = req.body;
+    User.destroy({
+      where: {
+        id
+      }
+    }).then((result) => {
+      res.json(result);
     });
   }
 }
