@@ -41,7 +41,9 @@ export default class AuthController {
     const { token } = req.body;
     this.refreshTokens = this.refreshTokens.filter(t => t !== token);
 
-    res.send("Logout successful");
+    res.json({
+      message: 'Logout successful'
+    });
   }
 
   verifyMe = (req: any, res: any) => {

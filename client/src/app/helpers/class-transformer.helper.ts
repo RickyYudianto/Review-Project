@@ -1,4 +1,4 @@
-import { plainToClass, classToPlain } from 'class-transformer';
+import { classToPlain, plainToClass } from 'class-transformer';
 import { ClassType } from 'class-transformer/ClassTransformer';
 
 export const fromJsonToArrayOfObject = <T, V>(

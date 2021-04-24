@@ -1,6 +1,7 @@
 {
   "LABEL": {
-    "LOGIN": "Login"
+    "LOGIN": "Login",
+    "LOGOUT": "Logout"
   },
   "PAGE_TITLE": {
     "HOME_PAGE": "Home Page",
