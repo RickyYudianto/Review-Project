@@ -31,6 +31,7 @@ export default class UserController {
     const { email, name, isActive, userType } = req.body;
     User.create({
       email,
+      password: '123456',
       name,
       isActive,
       typeId: userType.id
