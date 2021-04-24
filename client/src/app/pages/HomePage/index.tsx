@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { useInjectReducer } from '../../../utils/redux-injectors';
@@ -83,23 +83,6 @@ export function HomePage() {
 
   const availableRoutes = switchRoutes(user?.userType.id);
 
-  const resizeFunction = () => {
-    if (window.innerWidth < 960) {
-      setOpenDrawer(false);
-    } else {
-      setOpenDrawer(true);
-    }
-  };
-
-  useEffect(() => {
-    resizeFunction();
-    window.addEventListener('resize', resizeFunction);
-
-    return () => {
-      window.removeEventListener('resize', resizeFunction);
-    };
-  });
-
   const handleLogout = () => {
     logout({ refreshToken }).then(() => {
       dispatch(authActions.setLoggedOut());
@@ -114,9 +97,14 @@ export function HomePage() {
         user={user}
         openDrawer={openDrawer}
         title={makeBrand()}
+        handleDrawerOpen={() => setOpenDrawer(true)}
         handleLogout={() => handleLogout()}
       />
-      <Sidebar open={openDrawer} routes={filterRoutes(user?.userType.id)} />
+      <Sidebar
+        open={openDrawer}
+        routes={filterRoutes(user?.userType.id)}
+        handleDrawerClose={() => setOpenDrawer(false)}
+      />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="xl" className={classes.container}>

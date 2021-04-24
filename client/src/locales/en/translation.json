@@ -1,7 +1,14 @@
 {
   "LABEL": {
+    "ACTIVE": "Active",
+    "ADD": "Add",
+    "DELETE": "Delete",
+    "EDIT": "Edit",
+    "EMAIL_ADDRESS": "Email Address",
     "LOGIN": "Login",
     "LOGOUT": "Logout",
+    "NAME": "Name",
+    "TYPE": "Type",
     "WELCOME": "Welcome"
   },
   "MESSAGE": {

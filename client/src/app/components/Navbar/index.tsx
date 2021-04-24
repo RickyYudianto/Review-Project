@@ -4,13 +4,15 @@ import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import ExitToApp from '@material-ui/icons/ExitToApp';
+import MenuIcon from '@material-ui/icons/Menu';
 import clsx from 'clsx';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/translations';
+import { SettingConstant } from '../../constants/setting.constant';
 import User from '../../models/user.model';
 
-const SIDEBAR_DRAWER_WIDTH = 240;
+const SIDEBAR_DRAWER_WIDTH = SettingConstant.SIDEBAR_DRAWER_WIDTH;
 const useStyles = makeStyles(theme => ({
   toolbar: {
     paddingRight: 24,
@@ -33,17 +35,24 @@ const useStyles = makeStyles(theme => ({
   title: {
     flexGrow: 1,
   },
+  menuButton: {
+    marginRight: 36,
+  },
+  menuButtonHidden: {
+    display: 'none',
+  },
 }));
 
 interface IProps {
   openDrawer: boolean;
   title: string;
   user: User | null;
+  handleDrawerOpen: () => void;
   handleLogout: () => void;
 }
 
 export function Navbar(props: IProps) {
-  const { openDrawer, title, user, handleLogout } = props;
+  const { openDrawer, title, user, handleDrawerOpen, handleLogout } = props;
   const classes = useStyles();
   const { t } = useTranslation();
   return (
@@ -52,6 +61,18 @@ export function Navbar(props: IProps) {
       className={clsx(classes.appBar, openDrawer && classes.appBarShift)}
     >
       <Toolbar className={classes.toolbar}>
+        <IconButton
+          edge="start"
+          color="inherit"
+          aria-label="open drawer"
+          onClick={handleDrawerOpen}
+          className={clsx(
+            classes.menuButton,
+            openDrawer && classes.menuButtonHidden,
+          )}
+        >
+          <MenuIcon />
+        </IconButton>
         <Typography
           component="h1"
           variant="h6"

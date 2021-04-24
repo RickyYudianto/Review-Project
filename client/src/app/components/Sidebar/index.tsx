@@ -2,17 +2,20 @@ import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import classNames from 'classnames';
 import clsx from 'clsx';
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import { SettingConstant } from '../../constants/setting.constant';
 
-const SIDEBAR_DRAWER_WIDTH = 240;
+const SIDEBAR_DRAWER_WIDTH = SettingConstant.SIDEBAR_DRAWER_WIDTH;
 const useStyles = makeStyles(theme => ({
   toolbarIcon: {
     display: 'flex',
@@ -25,7 +28,6 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    padding: '0 16px',
     cursor: 'pointer',
     ...theme.mixins.toolbar,
   },
@@ -63,7 +65,6 @@ const useStyles = makeStyles(theme => ({
     fontStyle: 'normal',
     lineHeight: 1.67,
     letterSpacing: 'normal',
-    whiteSpace: 'normal',
     color: 'rgba(0, 0, 0, 0.54)',
     fontWeight: 'bold',
   },
@@ -90,10 +91,11 @@ const useStyles = makeStyles(theme => ({
 interface IProps {
   open: boolean;
   routes: any[];
+  handleDrawerClose: () => void;
 }
 
 export function Sidebar(props: IProps) {
-  const { open, routes } = props;
+  const { open, routes, handleDrawerClose } = props;
   const location = useLocation();
   const classes = useStyles();
 
@@ -157,7 +159,11 @@ export function Sidebar(props: IProps) {
       open={open}
     >
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <div className={classes.toolbar} />
+        <div className={classes.toolbarIcon}>
+          <IconButton onClick={handleDrawerClose}>
+            <ChevronLeftIcon />
+          </IconButton>
+        </div>
       </Box>
       <Divider />
       {links}
