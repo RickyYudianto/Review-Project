@@ -5,8 +5,8 @@ import { verifyToken } from '../helpers';
 const router = Router();
 const controller = new AuthController();
 
-router.get('/login', controller.login);
-router.get('/logout', controller.logout);
+router.post('/login', controller.login);
+router.post('/logout', controller.logout);
 router.get('/me', verifyToken, controller.verifyMe);
 router.get('/token', controller.token);
 

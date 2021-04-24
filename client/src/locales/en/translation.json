@@ -1,3 +1,13 @@
 {
-  "title": "welcome"
+  "LABEL": {
+    "LOGIN": "Login"
+  },
+  "PAGE_TITLE": {
+    "HOME_PAGE": "Home Page",
+    "LOGIN_PAGE": "Login Page"
+  },
+  "PLACEHOLDER": {
+    "EMAIL_ADDRESS": "Email Address",
+    "PASSWORD": "Password"
+  }
 }
