@@ -2,6 +2,9 @@
 
 import { Sequelize } from 'sequelize-typescript';
 import env from '../config/env';
+import Assign from './assign';
+import PerformanceFeedback from './performanceFeedback';
+import PerformanceReview from './performanceReview';
 import User from './user';
 import UserType from './userType';
 
@@ -23,7 +26,7 @@ const sequelize = new Sequelize({
     min: 0,
     idle: 10000
   },
-  models: [ User, UserType ],
+  models: [ Assign, PerformanceFeedback, PerformanceReview, User, UserType ],
   logging: env.logging,
 });
 

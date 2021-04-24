@@ -17,7 +17,7 @@ export default class AuthController {
       include: UserType
     });
 
-    if (user && user.validPassword(password)) {
+    if (user && user.isActive && user.validPassword(password)) {
       const { id } = user;
       const loggedInAt = new Date();
       const accessToken = sign({ id, loggedInAt }, env.accessTokenSecret, { expiresIn: 86400 });

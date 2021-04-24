@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { translations } from '../../../../locales/translations';
 import { useInjectReducer } from '../../../../utils/redux-injectors';
+import CustomAvatarGroup from '../../../components/Avatar/AvatarGroup';
 import { DefaultButton } from '../../../components/Button';
 import ConfirmationDialog from '../../../components/Dialog/ConfirmationDialog';
 import CustomTable from '../../../components/Table';
@@ -185,6 +186,8 @@ export function EmployeeListPage() {
             t(translations.LABEL.EMAIL_ADDRESS),
             t(translations.LABEL.ACTIVE),
             t(translations.LABEL.TYPE),
+            t(translations.LABEL.REVIEWERS),
+            t(translations.LABEL.REVIEWEES),
           ]}
           tableData={users.map(user => {
             return [
@@ -210,6 +213,8 @@ export function EmployeeListPage() {
                 <Icon className={classes.clearIcon}>clear</Icon>
               ),
               user.userType?.name,
+              <CustomAvatarGroup arr={user.reviewers} />,
+              <CustomAvatarGroup arr={user.reviewees} />,
             ];
           })}
           totalData={totalData}

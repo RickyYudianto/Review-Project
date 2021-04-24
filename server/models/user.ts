@@ -1,6 +1,7 @@
 'use strict';
 import bcrypt from 'bcrypt';
-import { BeforeCreate, BeforeUpdate, BelongsTo, Column, ForeignKey, Model, Table } from 'sequelize-typescript';
+import { BeforeCreate, BeforeUpdate, BelongsTo, Column, ForeignKey, HasMany, Model, Table } from 'sequelize-typescript';
+import Assign from './assign';
 import UserType from './userType';
 
 @Table({

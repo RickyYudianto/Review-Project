@@ -14,6 +14,8 @@
     "LOGOUT": "Logout",
     "NAME": "Name",
     "NO": "No",
+    "REVIEWERS": "Reviewers",
+    "REVIEWEES": "Reviewees",
     "SAVE": "Save",
     "STATUS": "Status",
     "TYPE": "Type",
@@ -37,8 +39,10 @@
   },
   "PLACEHOLDER": {
     "EMAIL_ADDRESS": "Email Address",
-    "EMPLOYEE_EMAIL_ADDRESS": "Type Employee Email Address",
-    "EMPLOYEE_NAME": "Type Employee Name",
-    "PASSWORD": "Password"
+    "PASSWORD": "Password",
+    "SELECT_EMPLOYEE_REVIEWEES": "Select Employee Reviewees",
+    "SELECT_EMPLOYEE_REVIEWERS": "Select Employee Reviewers",
+    "TYPE_EMPLOYEE_EMAIL_ADDRESS": "Type Employee Email Address",
+    "TYPE_EMPLOYEE_NAME": "Type Employee Name"
   }
 }

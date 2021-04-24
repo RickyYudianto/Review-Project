@@ -2,6 +2,7 @@ import User from '../models/user.model';
 
 export interface UserState {
   users: User[];
+  allUsers: User[];
   formValue: User;
   selected: number[];
   totalData: number;

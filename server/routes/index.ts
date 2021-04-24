@@ -14,8 +14,8 @@ router.get('*', (req, res) => {
 });
 
 const route = (app: Express) => {
-  app.use('/users', users);
   app.use('/auth', auth);
+  app.use('/users', users);
   app.use('/', router);
 };
 

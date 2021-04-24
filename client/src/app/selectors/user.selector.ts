@@ -10,6 +10,11 @@ export const selectUsers = createSelector(
   userState => userState.users,
 );
 
+export const selectAllUsers = createSelector(
+  [selectDomain],
+  userState => userState.allUsers,
+);
+
 export const selectFormValue = createSelector(
   [selectDomain],
   userState => userState.formValue,

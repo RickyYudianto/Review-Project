@@ -5,6 +5,7 @@ import { ContainerState } from '../types/user.type';
 
 export const initialState: ContainerState = {
   users: [],
+  allUsers: [],
   formValue: new User(),
   selected: [],
   totalData: 0,
@@ -18,6 +19,9 @@ const userSlice = createSlice({
   reducers: {
     setList(state, action: PayloadAction<User[]>) {
       state.users = action.payload;
+    },
+    setAllUserList(state, action: PayloadAction<User[]>) {
+      state.allUsers = action.payload;
     },
     setInitialFormValue(state) {
       state.formValue = { ...state.formValue, ...new User() };
@@ -60,6 +64,7 @@ const userSlice = createSlice({
     },
     resetState(state) {
       state.users = initialState.users;
+      state.allUsers = initialState.allUsers;
       state.formValue = initialState.formValue;
       state.totalData = initialState.totalData;
       state.page = initialState.page;

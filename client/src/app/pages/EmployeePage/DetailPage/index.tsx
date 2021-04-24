@@ -2,8 +2,10 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Input from '@material-ui/core/Input';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useSnackbar } from 'notistack';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,14 +16,25 @@ import { DefaultButton } from '../../../components/Button';
 import GridContainer from '../../../components/Grid/GridContainer';
 import GridItem from '../../../components/Grid/GridItem';
 import { Label } from '../../../components/Label';
+import UserOption from '../../../components/Option/UserOption';
 import { ActionWrapper, FormControlWrapper } from '../../../components/Wrapper';
 import { PathConstant } from '../../../constants/path.constant';
-import { fromJsonToObj } from '../../../helpers/class-transformer.helper';
+import {
+  fromJsonToArrayOfObject,
+  fromJsonToObj,
+} from '../../../helpers/class-transformer.helper';
+import Reviewee from '../../../models/reviewee.model';
+import Reviewer from '../../../models/reviewer.model';
 import { UserTypeEnum } from '../../../models/user-type.enum';
 import User from '../../../models/user.model';
-import { selectFormValue, selectUsers } from '../../../selectors/user.selector';
+import {
+  selectAllUsers,
+  selectFormValue,
+  selectUsers,
+} from '../../../selectors/user.selector';
 import {
   createUser,
+  getAllUser,
   getUserById,
   updateUser,
 } from '../../../services/user.service';
@@ -40,7 +53,43 @@ export function EmployeeDetailPage() {
   const { t } = useTranslation();
 
   const users = useSelector(selectUsers);
+  const allUsers = useSelector(selectAllUsers);
   const formValue = useSelector(selectFormValue);
+
+  const userOptions = useMemo(() => {
+    return allUsers.map(user => {
+      return {
+        id: user.id,
+        name: user.name,
+      };
+    });
+  }, [allUsers]);
+
+  const reviewerOptions = useMemo(() => {
+    const reviewers = fromJsonToArrayOfObject(Reviewer, userOptions);
+    return reviewers.filter(reviewer => reviewer.id !== formValue.id);
+  }, [formValue.id, userOptions]);
+
+  const revieweeOptions = useMemo(() => {
+    const reviewees = fromJsonToArrayOfObject(Reviewee, userOptions);
+    return reviewees.filter(reviewee => reviewee.id !== formValue.id);
+  }, [formValue.id, userOptions]);
+
+  const findUniqueValue = useCallback(value => {
+    const lookup = value.reduce((a: any, e: any) => {
+      a[e.id] = ++a[e.id] || 0;
+      return a;
+    }, {});
+
+    return value.filter((e: any) => !lookup[e.id]);
+  }, []);
+
+  const fetchAllUser = useCallback(() => {
+    getAllUser().then((result: any) => {
+      const users: User[] = fromJsonToArrayOfObject(User, result.users);
+      dispatch(userActions.setAllUserList(users));
+    });
+  }, [dispatch]);
 
   const fetchUserData = useCallback(() => {
     const findUser = users.find(user => user.id === parseInt(params.id, 10));
@@ -134,12 +183,13 @@ export function EmployeeDetailPage() {
   }, [formValue, onAddUser, onUpdateUser, params.id]);
 
   useEffect(() => {
+    fetchAllUser();
     if (params.id) {
       fetchUserData();
     } else {
       onResetFormValue();
     }
-  }, [fetchUserData, onResetFormValue, params.id]);
+  }, [fetchAllUser, fetchUserData, onResetFormValue, params.id]);
 
   return (
     <>
@@ -161,7 +211,7 @@ export function EmployeeDetailPage() {
                   onChangeFormValue({ name: e.target.value });
                 }}
                 id="name"
-                placeholder={t(translations.PLACEHOLDER.EMPLOYEE_NAME)}
+                placeholder={t(translations.PLACEHOLDER.TYPE_EMPLOYEE_NAME)}
               />
             </FormControlWrapper>
           </GridItem>
@@ -174,7 +224,9 @@ export function EmployeeDetailPage() {
                   onChangeFormValue({ email: e.target.value });
                 }}
                 id="email"
-                placeholder={t(translations.PLACEHOLDER.EMPLOYEE_EMAIL_ADDRESS)}
+                placeholder={t(
+                  translations.PLACEHOLDER.TYPE_EMPLOYEE_EMAIL_ADDRESS,
+                )}
               />
             </FormControlWrapper>
           </GridItem>
@@ -238,6 +290,78 @@ export function EmployeeDetailPage() {
                   label={t(translations.LABEL.EMPLOYEE)}
                 />
               </RadioGroup>
+            </FormControlWrapper>
+          </GridItem>
+          <GridItem xs={12}>
+            <FormControlWrapper required>
+              <Label>{t(translations.LABEL.REVIEWERS)}</Label>
+              <Autocomplete
+                multiple
+                disableCloseOnSelect
+                options={reviewerOptions}
+                value={formValue.reviewers}
+                getOptionLabel={option => option.name}
+                onChange={(e, value) => {
+                  onChangeFormValue({
+                    reviewers: findUniqueValue(value),
+                  });
+                }}
+                renderOption={option => (
+                  <UserOption
+                    option={option}
+                    checked={
+                      formValue.reviewers.filter(
+                        reviewer => reviewer.id === option.id,
+                      ).length > 0
+                    }
+                  />
+                )}
+                style={{ width: 500 }}
+                renderInput={params => (
+                  <TextField
+                    {...params}
+                    placeholder={t(
+                      translations.PLACEHOLDER.SELECT_EMPLOYEE_REVIEWERS,
+                    )}
+                  />
+                )}
+              />
+            </FormControlWrapper>
+          </GridItem>
+          <GridItem xs={12}>
+            <FormControlWrapper required>
+              <Label>{t(translations.LABEL.REVIEWEES)}</Label>
+              <Autocomplete
+                multiple
+                disableCloseOnSelect
+                options={revieweeOptions}
+                value={formValue.reviewees}
+                getOptionLabel={option => option.name}
+                onChange={(e, value) => {
+                  onChangeFormValue({
+                    reviewees: findUniqueValue(value),
+                  });
+                }}
+                renderOption={option => (
+                  <UserOption
+                    option={option}
+                    checked={
+                      formValue.reviewees.filter(
+                        reviewee => reviewee.id === option.id,
+                      ).length > 0
+                    }
+                  />
+                )}
+                style={{ width: 500 }}
+                renderInput={params => (
+                  <TextField
+                    {...params}
+                    placeholder={t(
+                      translations.PLACEHOLDER.SELECT_EMPLOYEE_REVIEWEES,
+                    )}
+                  />
+                )}
+              />
             </FormControlWrapper>
           </GridItem>
           <GridItem xs={12}>

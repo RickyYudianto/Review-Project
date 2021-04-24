@@ -1,5 +1,5 @@
-import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
-import NoteIcon from '@material-ui/icons/Note';
+import EventIcon from '@material-ui/icons/Event';
+import FeedbackIcon from '@material-ui/icons/Feedback';
 import PeopleIcon from '@material-ui/icons/People';
 import { NotFoundPage } from '../components/NotFoundPage/Loadable';
 import { PathConstant } from '../constants/path.constant';
@@ -29,17 +29,17 @@ const homeRoutes = [
     ],
   },
   {
-    path: PathConstant.ASSIGN_EMPLOYEE_REVIEW,
-    name: 'Assign Employee Review',
-    icon: AssignmentIndIcon,
+    path: PathConstant.PERFORMANCE_REVIEW,
+    name: 'Performance Review',
+    icon: EventIcon,
     component: NotFoundPage,
     base: PathConstant.HOME,
     type: UserTypeEnum.ADMIN,
   },
   {
-    path: PathConstant.REVIEW,
-    name: 'Review',
-    icon: NoteIcon,
+    path: PathConstant.FEEDBACK,
+    name: 'Feedback',
+    icon: FeedbackIcon,
     component: NotFoundPage,
     base: PathConstant.HOME,
     type: UserTypeEnum.ALL,

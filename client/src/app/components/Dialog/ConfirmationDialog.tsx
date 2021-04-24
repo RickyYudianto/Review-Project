@@ -1,12 +1,12 @@
 import Box from '@material-ui/core/Box';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Icon from '@material-ui/core/Icon';
-import makeStyles from '@material-ui/core/styles/makeStyles';
-import React from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Icon from '@material-ui/core/Icon';
+import makeStyles from '@material-ui/core/styles/makeStyles';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/translations';
 import { DefaultButton } from '../Button';
