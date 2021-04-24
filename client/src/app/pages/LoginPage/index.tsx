@@ -52,9 +52,9 @@ export function LoginPage() {
         dispatch(authActions.setRefreshToken(result.refreshToken));
         history.push(PathConstant.ROOT);
       })
-      .catch(error => {
+      .catch(() => {
         setLoading(false);
-        setError(error);
+        setError(t(translations.MESSAGE.INCORRECT_EMAIL_ADDRESS_OR_PASSWORD));
       });
   };
 

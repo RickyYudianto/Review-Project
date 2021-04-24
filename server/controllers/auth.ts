@@ -33,7 +33,7 @@ export default class AuthController {
         refreshToken
       });
     } else {
-      res.status(401).send('Username or password incorrect');
+      res.status(401).send('Incorrect email address or password');
     }
   }
 

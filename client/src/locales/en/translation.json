@@ -3,6 +3,9 @@
     "LOGIN": "Login",
     "LOGOUT": "Logout"
   },
+  "MESSAGE": {
+    "INCORRECT_EMAIL_ADDRESS_OR_PASSWORD": "Incorrect email address or password"
+  },
   "PAGE_TITLE": {
     "HOME_PAGE": "Home Page",
     "LOGIN_PAGE": "Login Page"
