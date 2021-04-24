@@ -1,12 +1,14 @@
 {
   "LABEL": {
     "LOGIN": "Login",
-    "LOGOUT": "Logout"
+    "LOGOUT": "Logout",
+    "WELCOME": "Welcome"
   },
   "MESSAGE": {
     "INCORRECT_EMAIL_ADDRESS_OR_PASSWORD": "Incorrect email address or password"
   },
   "PAGE_TITLE": {
+    "EMPLOYEE_PAGE": "Employee Page",
     "HOME_PAGE": "Home Page",
     "LOGIN_PAGE": "Login Page"
   },

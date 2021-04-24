@@ -1,7 +1,13 @@
 import * as querystring from 'querystring';
+import Cookies from 'universal-cookie';
+import { SettingConstant } from '../../app/constants/setting.constant';
 import { request } from './request';
 
 import { EndpointConstant } from '../../app/constants/endpoint.constant';
+
+const cookies = new Cookies();
+
+const ACCESS_TOKEN_COOKIE_NAME = SettingConstant.ACCESS_TOKEN_COOKIE_NAME;
 
 export function getRequest(props: any) {
   const { url, params, headers } = props;
@@ -17,6 +23,7 @@ export function getRequest(props: any) {
     mode: 'cors',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
+      'x-access-token': cookies.get(ACCESS_TOKEN_COOKIE_NAME) || null,
       ...headers,
     },
   });
@@ -30,6 +37,7 @@ export function postRequest(props: any) {
     mode: 'cors',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
+      'x-access-token': cookies.get(ACCESS_TOKEN_COOKIE_NAME) || null,
       ...headers,
     },
     body: JSON.stringify(params),
@@ -45,6 +53,7 @@ export function putRequest(props: any) {
     mode: 'cors',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
+      'x-access-token': cookies.get(ACCESS_TOKEN_COOKIE_NAME) || null,
       ...headers,
     },
     body: params,
@@ -59,6 +68,7 @@ export function deleteRequest(props: any) {
     mode: 'cors',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
+      'x-access-token': cookies.get(ACCESS_TOKEN_COOKIE_NAME) || null,
       ...headers,
     },
     body: params,

@@ -6,13 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { useInjectReducer } from '../../../utils/redux-injectors';
 import { Navbar } from '../../components/Navbar';
+import { NotFoundPage } from '../../components/NotFoundPage/Loadable';
 import { Sidebar } from '../../components/Sidebar';
 import { PathConstant } from '../../constants/path.constant';
+import { UserTypeEnum } from '../../models/user-type.enum';
 import routes from '../../routes/home.routes';
-import {
-  selectAccessToken,
-  selectRefreshToken,
-} from '../../selectors/auth.selector';
+import { selectRefreshToken, selectUser } from '../../selectors/auth.selector';
 import { logout } from '../../services/auth.service';
 import {
   actions as authActions,
@@ -42,15 +41,21 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const switchRoutes = (
+const filterRoutes = userType =>
+  routes.filter(
+    prop => prop.type === UserTypeEnum.ALL || prop.type === userType,
+  );
+
+const switchRoutes = userType => (
   <Switch>
-    {routes.map((prop, key) => (
+    {filterRoutes(userType).map((prop, key) => (
       <Route
         path={prop.base + prop.path}
         component={prop.component}
         key={key}
       />
     ))}
+    <Route path={PathConstant.HOME + '/*'} component={NotFoundPage} />
   </Switch>
 );
 
@@ -59,14 +64,14 @@ export function HomePage() {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
-  const accessToken = useSelector(selectAccessToken);
   const refreshToken = useSelector(selectRefreshToken);
+  const user = useSelector(selectUser);
   const [openDrawer, setOpenDrawer] = useState(true);
   const classes = useStyles();
 
-  function makeBrand() {
+  const makeBrand = () => {
     let name = '';
-    routes.forEach((prop: any) => {
+    filterRoutes(user?.userType.id).forEach((prop: any) => {
       if (prop.base + prop.path === location.pathname) {
         name = prop.name;
         return;
@@ -74,7 +79,9 @@ export function HomePage() {
     });
 
     return name;
-  }
+  };
+
+  const availableRoutes = switchRoutes(user?.userType.id);
 
   const resizeFunction = () => {
     if (window.innerWidth < 960) {
@@ -94,7 +101,7 @@ export function HomePage() {
   });
 
   const handleLogout = () => {
-    logout({ refreshToken, accessToken }).then(() => {
+    logout({ refreshToken }).then(() => {
       dispatch(authActions.setLoggedOut());
       history.push(PathConstant.LOGIN);
     });
@@ -104,15 +111,16 @@ export function HomePage() {
     <div className={classes.root}>
       <CssBaseline />
       <Navbar
+        user={user}
         openDrawer={openDrawer}
         title={makeBrand()}
         handleLogout={() => handleLogout()}
       />
-      <Sidebar open={openDrawer} routes={routes} />
+      <Sidebar open={openDrawer} routes={filterRoutes(user?.userType.id)} />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="xl" className={classes.container}>
-          {switchRoutes}
+          {availableRoutes}
         </Container>
       </main>
     </div>

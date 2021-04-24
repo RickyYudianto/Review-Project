@@ -58,11 +58,12 @@ const useStyles = makeStyles(theme => ({
     },
   },
   itemText: {
-    fontSize: '18px',
+    fontSize: '16px',
     fontStretch: 'normal',
     fontStyle: 'normal',
     lineHeight: 1.67,
     letterSpacing: 'normal',
+    whiteSpace: 'normal',
     color: 'rgba(0, 0, 0, 0.54)',
     fontWeight: 'bold',
   },

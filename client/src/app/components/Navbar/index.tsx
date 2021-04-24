@@ -8,6 +8,7 @@ import clsx from 'clsx';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/translations';
+import User from '../../models/user.model';
 
 const SIDEBAR_DRAWER_WIDTH = 240;
 const useStyles = makeStyles(theme => ({
@@ -37,11 +38,12 @@ const useStyles = makeStyles(theme => ({
 interface IProps {
   openDrawer: boolean;
   title: string;
+  user: User | null;
   handleLogout: () => void;
 }
 
 export function Navbar(props: IProps) {
-  const { openDrawer, title, handleLogout } = props;
+  const { openDrawer, title, user, handleLogout } = props;
   const classes = useStyles();
   const { t } = useTranslation();
   return (
@@ -59,6 +61,9 @@ export function Navbar(props: IProps) {
         >
           {title}
         </Typography>
+        <span>
+          {t(translations.LABEL.WELCOME)}, <b>{user?.name}</b>
+        </span>
         <IconButton
           color="inherit"
           title={t(translations.LABEL.LOGOUT)}

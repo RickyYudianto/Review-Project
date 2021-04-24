@@ -2,12 +2,13 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import Cookies from 'universal-cookie';
 import { createSlice } from 'utils/@reduxjs/toolkit';
 import { PathConstant } from '../constants/path.constant';
+import { SettingConstant } from '../constants/setting.constant';
 import User from '../models/user.model';
 import { ContainerState } from '../types/auth.type';
 
-const USER_COOKIE_NAME = 'user';
-const ACCESS_TOKEN_COOKIE_NAME = 'accessToken';
-const REFRESH_TOKEN_COOKIE_NAME = 'refreshToken';
+const USER_COOKIE_NAME = SettingConstant.USER_COOKIE_NAME;
+const ACCESS_TOKEN_COOKIE_NAME = SettingConstant.ACCESS_TOKEN_COOKIE_NAME;
+const REFRESH_TOKEN_COOKIE_NAME = SettingConstant.REFRESH_TOKEN_COOKIE_NAME;
 
 const cookies = new Cookies();
 
