@@ -1,6 +1,6 @@
 import Assign from '../models/assign';
 import User from '../models/user';
-import UserType from '../models/userType';
+import UserType from '../models/user-type';
 
 export default class UserController {
 

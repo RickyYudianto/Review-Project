@@ -2,7 +2,7 @@
 import bcrypt from 'bcrypt';
 import { BeforeCreate, BeforeUpdate, BelongsTo, Column, ForeignKey, HasMany, Model, Table } from 'sequelize-typescript';
 import Assign from './assign';
-import UserType from './userType';
+import UserType from './user-type';
 
 @Table({
   tableName: 'users',

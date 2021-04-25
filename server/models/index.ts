@@ -6,7 +6,7 @@ import Assign from './assign';
 import PerformanceFeedback from './performance-feedback';
 import PerformanceReview from './performance-review';
 import User from './user';
-import UserType from './userType';
+import UserType from './user-type';
 
 const DB_DATABASE = env.database;
 const DB_HOST = env.host;

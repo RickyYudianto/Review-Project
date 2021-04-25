@@ -2,7 +2,7 @@ import { sign, verify } from 'jsonwebtoken';
 import omit from 'lodash/omit';
 import env from '../config/env';
 import User from '../models/user';
-import UserType from '../models/userType';
+import UserType from '../models/user-type';
 
 export default class AuthController {
   login = async (req: any, res: any) => {
