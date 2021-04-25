@@ -173,12 +173,18 @@ export default function PerformanceFeedbackCard(props: IProps) {
       <Divider />
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          {userPerformanceFeedback.performanceFeedbacks.map(
-            (performanceFeedback, idx) => (
-              <Box className={classes.content} key={idx}>
-                {renderFeedbackContent(performanceFeedback)}
-              </Box>
-            ),
+          {userPerformanceFeedback.performanceFeedbacks.length > 0 ? (
+            userPerformanceFeedback.performanceFeedbacks.map(
+              (performanceFeedback, idx) => (
+                <Box className={classes.content} key={idx}>
+                  {renderFeedbackContent(performanceFeedback)}
+                </Box>
+              ),
+            )
+          ) : (
+            <Box>
+              <i>{t(translations.LABEL.NO_DATA_AVAILABLE)}</i>
+            </Box>
           )}
         </CardContent>
       </Collapse>

@@ -1,4 +1,5 @@
 import { Theme } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -7,6 +8,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { translations } from '../../../locales/translations';
 import { CustomPagination } from '../Pagination';
 
 const useStyle = makeStyles((theme: Theme) => ({
@@ -62,6 +65,7 @@ export default function CustomTable(props: IProps) {
     handleChangeSize,
   } = props;
   const classes = useStyle();
+  const { t } = useTranslation();
 
   return (
     <div className={classes.tableResponsive}>
@@ -87,19 +91,36 @@ export default function CustomTable(props: IProps) {
             </TableHead>
           ) : null}
           <TableBody>
-            {tableData.map((prop: any, key: any) => {
-              return (
-                <TableRow key={key}>
-                  {prop.map((p: any, k: any) => {
-                    return (
-                      <TableCell className={classes.tableCell} key={k}>
-                        {p}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
+            {tableData.length > 0 ? (
+              tableData.map((prop: any, key: any) => {
+                return (
+                  <TableRow key={key}>
+                    {prop.map((p: any, k: any) => {
+                      return (
+                        <TableCell className={classes.tableCell} key={k}>
+                          {p}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })
+            ) : (
+              <TableRow>
+                <TableCell
+                  className={classes.tableCell}
+                  colSpan={tableHead?.length}
+                >
+                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <h4>{t(translations.LABEL.NO_DATA_AVAILABLE)}</h4>
+                  </Box>
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </TableContainer>
