@@ -189,16 +189,16 @@ export function PerformanceReviewDetailPage() {
         />
       </Helmet>
       <GridContainer>
-        <GridItem xs={12}>
-          <Box style={{ marginBottom: '24px' }}>
-            <NavLink
-              to={`${PathConstant.HOME}${PathConstant.PERFORMANCE_REVIEW}`}
-            >
-              {t(translations.LABEL.BACK_TO_LIST_PAGE)}
-            </NavLink>
-          </Box>
-        </GridItem>
-        <GridItem xs={6}>
+        <GridItem xs={12} md={6}>
+          <GridItem xs={12}>
+            <Box style={{ marginBottom: '24px' }}>
+              <NavLink
+                to={`${PathConstant.HOME}${PathConstant.PERFORMANCE_REVIEW}`}
+              >
+                {t(translations.LABEL.BACK_TO_LIST_PAGE)}
+              </NavLink>
+            </Box>
+          </GridItem>
           {!params.id ? (
             <GridItem xs={12}>
               <Alert severity="info">

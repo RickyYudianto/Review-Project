@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import React, { useState } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { useInjectReducer } from '../../../utils/redux-injectors';
@@ -17,6 +17,11 @@ import {
   reducer as authReducer,
   sliceKey as authSliceKey,
 } from '../../slices/auth.slice';
+import {
+  actions as pendingFeedbackActions,
+  reducer as pendingFeedbackReducer,
+  sliceKey as pendingFeedbackSliceKey,
+} from '../../slices/pending-feedback.slice';
 import {
   actions as performanceFeedbackActions,
   reducer as performanceFeedbackReducer,
@@ -94,8 +99,25 @@ const switchRoutes = userType => {
   );
 };
 
+function useWindowSize() {
+  const [size, setSize] = useState([0, 0]);
+  useLayoutEffect(() => {
+    function updateSize() {
+      setSize([window.innerWidth, window.innerHeight]);
+    }
+    window.addEventListener('resize', updateSize);
+    updateSize();
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+  return size;
+}
+
 export function HomePage() {
   useInjectReducer({ key: authSliceKey, reducer: authReducer });
+  useInjectReducer({
+    key: pendingFeedbackSliceKey,
+    reducer: pendingFeedbackReducer,
+  });
   useInjectReducer({
     key: performanceFeedbackSliceKey,
     reducer: performanceFeedbackReducer,
@@ -110,6 +132,7 @@ export function HomePage() {
   const location = useLocation();
   const user = useSelector(selectUser);
   const [openDrawer, setOpenDrawer] = useState(true);
+  const [width] = useWindowSize();
   const classes = useStyles();
 
   const makeBrand = () => {
@@ -125,19 +148,28 @@ export function HomePage() {
   };
 
   const availableRoutes = switchRoutes(user?.userType.id);
+  const isMobile = useMemo(() => width > 0 && width <= 640, [width]);
 
   const handleLogout = () => {
     dispatch(authActions.setLoggedOut());
+    dispatch(pendingFeedbackActions.resetState());
     dispatch(performanceFeedbackActions.resetState());
     dispatch(performanceReviewActions.resetState());
     dispatch(userActions.resetState());
     history.push(PathConstant.LOGIN);
   };
 
+  useEffect(() => {
+    if (isMobile) {
+      setOpenDrawer(false);
+    }
+  }, [isMobile]);
+
   return (
     <div className={classes.root}>
       <CssBaseline />
       <Navbar
+        isMobile={isMobile}
         user={user}
         openDrawer={openDrawer}
         title={makeBrand()}

@@ -44,6 +44,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface IProps {
+  isMobile: boolean;
   openDrawer: boolean;
   title: string;
   user: User | null;
@@ -52,27 +53,37 @@ interface IProps {
 }
 
 export function Navbar(props: IProps) {
-  const { openDrawer, title, user, handleDrawerOpen, handleLogout } = props;
+  const {
+    isMobile,
+    openDrawer,
+    title,
+    user,
+    handleDrawerOpen,
+    handleLogout,
+  } = props;
   const classes = useStyles();
   const { t } = useTranslation();
+
   return (
     <AppBar
       position="absolute"
       className={clsx(classes.appBar, openDrawer && classes.appBarShift)}
     >
       <Toolbar className={classes.toolbar}>
-        <IconButton
-          edge="start"
-          color="inherit"
-          aria-label="open drawer"
-          onClick={handleDrawerOpen}
-          className={clsx(
-            classes.menuButton,
-            openDrawer && classes.menuButtonHidden,
-          )}
-        >
-          <Icon>menu</Icon>
-        </IconButton>
+        {isMobile ? null : (
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            className={clsx(
+              classes.menuButton,
+              openDrawer && classes.menuButtonHidden,
+            )}
+          >
+            <Icon>menu</Icon>
+          </IconButton>
+        )}
         <Typography
           component="h1"
           variant="h6"

@@ -54,7 +54,7 @@ export default function FeedbackDialog(props: IProps) {
               new Date(formValue.performanceReview.periodStart),
               SettingConstant.SIMPLE_DATE_FORMAT,
             )}{' '}
-            ~
+            ~{' '}
             {format(
               new Date(formValue.performanceReview.periodEnd),
               SettingConstant.SIMPLE_DATE_FORMAT,

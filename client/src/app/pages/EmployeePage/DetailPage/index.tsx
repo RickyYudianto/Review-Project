@@ -202,7 +202,7 @@ export function EmployeeDetailPage() {
         />
       </Helmet>
       <GridContainer>
-        <GridItem xs={6}>
+        <GridItem xs={12} md={6}>
           <GridItem xs={12}>
             <Box style={{ marginBottom: '24px' }}>
               <NavLink to={`${PathConstant.HOME}${PathConstant.EMPLOYEE}`}>
@@ -322,7 +322,7 @@ export function EmployeeDetailPage() {
                     }
                   />
                 )}
-                style={{ width: 500 }}
+                style={{ width: '100%' }}
                 renderInput={params => (
                   <TextField
                     {...params}
@@ -358,7 +358,7 @@ export function EmployeeDetailPage() {
                     }
                   />
                 )}
-                style={{ width: 500 }}
+                style={{ width: '100%' }}
                 renderInput={params => (
                   <TextField
                     {...params}
