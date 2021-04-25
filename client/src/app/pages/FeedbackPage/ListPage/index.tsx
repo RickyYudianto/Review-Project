@@ -131,7 +131,7 @@ export function FeedbackListPage() {
           ),
         );
     },
-    [dispatch, enqueueSnackbar, onCloseFeedbackDialog, t],
+    [dispatch, enqueueSnackbar, fetchList, onCloseFeedbackDialog, page, t],
   );
 
   useEffect(() => {
@@ -178,6 +178,7 @@ export function FeedbackListPage() {
               },
               {
                 display: t(translations.LABEL.ACTION),
+                width: '150px',
               },
             ]}
             tableData={pendingFeedbacks.map(pendingFeedback => {

@@ -125,6 +125,7 @@ export default function FeedbackDialog(props: IProps) {
           color="primary"
           variant="contained"
           autoFocus
+          disabled={formValue.score === 0}
           onClick={handleConfirm}
         >
           {t(translations.LABEL.SEND)}
