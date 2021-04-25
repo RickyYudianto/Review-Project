@@ -10,5 +10,5 @@ export class SettingConstant {
   public static readonly FEEDBACK_MAX_SCORE = 5;
 
   /* LAYOUT */
-  public static readonly SIDEBAR_DRAWER_WIDTH = 300;
+  public static readonly SIDEBAR_DRAWER_WIDTH = 240;
 }
