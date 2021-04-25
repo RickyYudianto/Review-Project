@@ -55,6 +55,7 @@ export default class UserController {
   getAllUser = (req: any, res: any) => {
     const { page, size } = req.query;
     User.findAndCountAll({
+      attributes: { exclude: ['password'] },
       include: UserType,
       limit: size ? parseInt(size) : undefined,
       offset : page && size ? (parseInt(page) - 1) * parseInt(size) : undefined
@@ -79,6 +80,7 @@ export default class UserController {
   getUserById = (req: any, res: any) => {
     const { id } = req.params;
     User.findByPk(id,{
+      attributes: { exclude: ['password'] },
       include: UserType,
     }).then(async (result) => {
       const user = await this.getReviewersReviewees(result).then(obj => obj);

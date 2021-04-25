@@ -8,14 +8,12 @@ import { ContainerState } from '../types/auth.type';
 
 const USER_COOKIE_NAME = SettingConstant.USER_COOKIE_NAME;
 const ACCESS_TOKEN_COOKIE_NAME = SettingConstant.ACCESS_TOKEN_COOKIE_NAME;
-const REFRESH_TOKEN_COOKIE_NAME = SettingConstant.REFRESH_TOKEN_COOKIE_NAME;
 
 const cookies = new Cookies();
 
 export const initialState: ContainerState = {
   user: cookies.get(USER_COOKIE_NAME) || null,
   accessToken: cookies.get(ACCESS_TOKEN_COOKIE_NAME) || null,
-  refreshToken: cookies.get(REFRESH_TOKEN_COOKIE_NAME) || null,
 };
 
 const authSlice = createSlice({
@@ -34,12 +32,6 @@ const authSlice = createSlice({
         path: PathConstant.ROOT,
       });
     },
-    setRefreshToken(state, action: PayloadAction<string>) {
-      state.refreshToken = action.payload;
-      cookies.set(REFRESH_TOKEN_COOKIE_NAME, action.payload, {
-        path: PathConstant.ROOT,
-      });
-    },
     setLoggedOut(state) {
       cookies.remove(USER_COOKIE_NAME, {
         path: PathConstant.ROOT,
@@ -47,17 +39,12 @@ const authSlice = createSlice({
       cookies.remove(ACCESS_TOKEN_COOKIE_NAME, {
         path: PathConstant.ROOT,
       });
-      cookies.remove(REFRESH_TOKEN_COOKIE_NAME, {
-        path: PathConstant.ROOT,
-      });
       state.user = null;
       state.accessToken = null;
-      state.refreshToken = null;
     },
     resetState(state) {
       state.user = initialState.user;
       state.accessToken = initialState.accessToken;
-      state.refreshToken = initialState.refreshToken;
     },
   },
 });

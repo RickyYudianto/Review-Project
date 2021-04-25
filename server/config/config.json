@@ -7,7 +7,6 @@
     "dialect": "mysql",
     "port": 3306,
     "accessTokenSecret": "supersecret",
-    "refreshTokenSecret": "refreshsupersecret",
     "logging": true
   },
   "production": {
@@ -18,7 +17,6 @@
     "dialect": "mysql",
     "port": 3306,
     "accessTokenSecret": "supersecret",
-    "refreshTokenSecret": "refreshsupersecret",
     "logging": false
   }
 }

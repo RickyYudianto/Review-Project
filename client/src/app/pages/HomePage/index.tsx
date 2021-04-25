@@ -11,8 +11,7 @@ import { Sidebar } from '../../components/Sidebar';
 import { PathConstant } from '../../constants/path.constant';
 import { UserTypeEnum } from '../../models/user-type.enum';
 import routes from '../../routes/home.routes';
-import { selectRefreshToken, selectUser } from '../../selectors/auth.selector';
-import { logout } from '../../services/auth.service';
+import { selectUser } from '../../selectors/auth.selector';
 import {
   actions as authActions,
   reducer as authReducer,
@@ -109,7 +108,6 @@ export function HomePage() {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
-  const refreshToken = useSelector(selectRefreshToken);
   const user = useSelector(selectUser);
   const [openDrawer, setOpenDrawer] = useState(true);
   const classes = useStyles();
@@ -129,14 +127,12 @@ export function HomePage() {
   const availableRoutes = switchRoutes(user?.userType.id);
 
   const handleLogout = () => {
-    logout({ refreshToken }).then(() => {
-      dispatch(authActions.setLoggedOut());
-      dispatch(authActions.resetState());
-      dispatch(performanceFeedbackActions.resetState());
-      dispatch(performanceReviewActions.resetState());
-      dispatch(userActions.resetState());
-      history.push(PathConstant.LOGIN);
-    });
+    dispatch(authActions.setLoggedOut());
+    dispatch(authActions.resetState());
+    dispatch(performanceFeedbackActions.resetState());
+    dispatch(performanceReviewActions.resetState());
+    dispatch(userActions.resetState());
+    history.push(PathConstant.LOGIN);
   };
 
   return (

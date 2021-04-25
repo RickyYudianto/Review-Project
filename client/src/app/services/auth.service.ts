@@ -6,11 +6,3 @@ export const login = (authParam: { email: string; password: string }) =>
     url: `${EndpointConstant.AUTH}${EndpointConstant.LOGIN}`,
     params: authParam,
   });
-
-export const logout = (authParam: { refreshToken: string | null }) =>
-  apiHelper.postRequest({
-    url: `${EndpointConstant.AUTH}${EndpointConstant.LOGOUT}`,
-    params: {
-      token: authParam.refreshToken,
-    },
-  });

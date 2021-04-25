@@ -49,7 +49,6 @@ export function LoginPage() {
         setLoading(false);
         dispatch(authActions.setLoggedIn(user));
         dispatch(authActions.setAccessToken(result.accessToken));
-        dispatch(authActions.setRefreshToken(result.refreshToken));
         history.push(PathConstant.ROOT);
       })
       .catch(() => {

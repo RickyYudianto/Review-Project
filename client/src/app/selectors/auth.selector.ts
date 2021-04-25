@@ -9,8 +9,3 @@ export const selectUser = createSelector(
   [selectDomain],
   authState => authState.user,
 );
-
-export const selectRefreshToken = createSelector(
-  [selectDomain],
-  authState => authState.refreshToken,
-);
