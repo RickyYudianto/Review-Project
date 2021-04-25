@@ -167,11 +167,11 @@ export function FeedbackListPage() {
             tableHead={[
               {
                 display: t(translations.LABEL.REVIEW_PERIOD),
-                width: '250px',
+                width: '200px',
               },
               {
                 display: t(translations.LABEL.FEEDBACK_PERIOD),
-                width: '250px',
+                width: '200px',
               },
               {
                 display: t(translations.LABEL.NAME),
@@ -181,7 +181,7 @@ export function FeedbackListPage() {
               },
               {
                 display: t(translations.LABEL.ACTION),
-                width: '150px',
+                width: '130px',
               },
             ]}
             tableData={pendingFeedbacks.map(pendingFeedback => {

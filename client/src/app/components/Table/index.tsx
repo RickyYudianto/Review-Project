@@ -19,7 +19,7 @@ const useStyle = makeStyles((theme: Theme) => ({
   table: {
     marginBottom: '0',
     width: '100%',
-    minWidth: '600px',
+    minWidth: '800px',
     maxWidth: '100%',
     backgroundColor: 'transparent',
     borderSpacing: '0',
