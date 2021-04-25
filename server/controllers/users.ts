@@ -34,13 +34,13 @@ export default class UserController {
     });
   }
 
-  getReviewersReviewees = async (user: any) => {
-    const reviewers = await this.getReviewersByUserId(user.id);
-    const reviewees = await this.getRevieweesById(user.id);
+  getReviewersReviewees = async (user: User | null) => {
+    const reviewers = await this.getReviewersByUserId(user?.id);
+    const reviewees = await this.getRevieweesById(user?.id);
     let userObj;
 
     try {
-      userObj = user.toJSON();
+      userObj = user?.toJSON();
     } catch (e) {
       userObj = user;
     }
@@ -61,7 +61,7 @@ export default class UserController {
     }).then(async (result: { rows: any; count: any; }) => {
       const promises: any[] = [];
 
-      result.rows.forEach((user: any) => {
+      result.rows.forEach((user: User) => {
         promises.push(this.getReviewersReviewees(user));
       })
 

@@ -2,7 +2,7 @@ import Box from '@material-ui/core/Box';
 import Checkbox from '@material-ui/core/Checkbox';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import format from 'date-fns/format';
 import { useSnackbar } from 'notistack';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -11,45 +11,41 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { translations } from '../../../../locales/translations';
 import { useInjectReducer } from '../../../../utils/redux-injectors';
-import CustomAvatarGroup from '../../../components/Avatar/AvatarGroup';
 import { DefaultButton } from '../../../components/Button';
 import ConfirmationDialog from '../../../components/Dialog/ConfirmationDialog';
 import CustomTable from '../../../components/Table';
 import { PathConstant } from '../../../constants/path.constant';
+import { SettingConstant } from '../../../constants/setting.constant';
 import { fromJsonToArrayOfObject } from '../../../helpers/class-transformer.helper';
-import User from '../../../models/user.model';
+import PerformanceReview from '../../../models/performance-review.model';
 import {
   selectPage,
+  selectPerformanceReviews,
   selectSelected,
   selectSize,
   selectTotalData,
-  selectUsers,
-} from '../../../selectors/user.selector';
-import { deleteUser, getAllUser } from '../../../services/user.service';
+} from '../../../selectors/performance-review.selector';
 import {
-  actions as userActions,
-  reducer as userReducer,
-  sliceKey as userSliceKey,
-} from '../../../slices/user.slice';
+  deletePerformanceReview,
+  getAllPerformanceReview,
+} from '../../../services/performance-review.service';
+import {
+  actions as performanceReviewActions,
+  reducer as performanceReviewReducer,
+  sliceKey as performanceReviewSliceKey,
+} from '../../../slices/performance-review.slice';
 
-const useStyles = makeStyles(theme => ({
-  checkIcon: {
-    color: '#5cb85c',
-  },
-  clearIcon: {
-    color: '#df4759',
-  },
-}));
-
-export function EmployeeListPage() {
-  useInjectReducer({ key: userSliceKey, reducer: userReducer });
+export function PerformanceReviewListPage() {
+  useInjectReducer({
+    key: performanceReviewSliceKey,
+    reducer: performanceReviewReducer,
+  });
   const dispatch = useDispatch();
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
-  const classes = useStyles();
   const { t } = useTranslation();
 
-  const users = useSelector(selectUsers);
+  const performanceReviews = useSelector(selectPerformanceReviews);
   const selected = useSelector(selectSelected);
   const page = useSelector(selectPage);
   const size = useSelector(selectSize);
@@ -66,22 +62,25 @@ export function EmployeeListPage() {
   }, []);
 
   const fetchList = useCallback(() => {
-    getAllUser({
+    getAllPerformanceReview({
       page,
       size,
     }).then((result: any) => {
-      const users: User[] = fromJsonToArrayOfObject(User, result.users);
-      dispatch(userActions.setList(users));
-      dispatch(userActions.setTotalData(result.totalData));
+      const performanceReviews: PerformanceReview[] = fromJsonToArrayOfObject(
+        PerformanceReview,
+        result.performanceReviews,
+      );
+      dispatch(performanceReviewActions.setList(performanceReviews));
+      dispatch(performanceReviewActions.setTotalData(result.totalData));
     });
   }, [dispatch, page, size]);
 
   const onDelete = useCallback(
     ids => {
-      deleteUser(ids)
+      deletePerformanceReview(ids)
         .then(() => {
           enqueueSnackbar(
-            t(translations.MESSAGE.DELETE_EMPLOYEE_SUCCESS, {
+            t(translations.MESSAGE.DELETE_PERFORMANCE_REVIEW_SUCCESS, {
               total: ids.length,
             }),
             {
@@ -89,16 +88,16 @@ export function EmployeeListPage() {
             },
           );
           onCloseConfirmationDialog();
-          dispatch(userActions.selectAll(ids));
+          dispatch(performanceReviewActions.selectAll(ids));
           if (page === 1) {
             fetchList();
           } else {
-            dispatch(userActions.setPage(1));
+            dispatch(performanceReviewActions.setPage(1));
           }
         })
         .catch(() =>
           enqueueSnackbar(
-            t(translations.MESSAGE.DELETE_EMPLOYEE_FAILED, {
+            t(translations.MESSAGE.DELETE_PERFORMANCE_REVIEW_FAILED, {
               total: ids.length,
             }),
             {
@@ -111,19 +110,19 @@ export function EmployeeListPage() {
   );
 
   const onHandleChangePage = page => {
-    dispatch(userActions.setPage(page));
+    dispatch(performanceReviewActions.setPage(page));
   };
 
   const onHandleChangeSize = size => {
-    dispatch(userActions.setSize(size));
+    dispatch(performanceReviewActions.setSize(size));
   };
 
   const onHandleCheck = id => {
-    dispatch(userActions.setSelected(id));
+    dispatch(performanceReviewActions.setSelected(id));
   };
 
   const onHandleCheckAll = ids => {
-    dispatch(userActions.selectAll(ids));
+    dispatch(performanceReviewActions.selectAll(ids));
   };
 
   useEffect(() => {
@@ -133,16 +132,19 @@ export function EmployeeListPage() {
   return (
     <>
       <Helmet>
-        <title>{t(translations.PAGE_TITLE.EMPLOYEE_PAGE)}</title>
+        <title>{t(translations.PAGE_TITLE.PERFORMANCE_REVIEW_PAGE)}</title>
         <meta
           name="description"
-          content={t(translations.PAGE_TITLE.EMPLOYEE_PAGE)}
+          content={t(translations.PAGE_TITLE.PERFORMANCE_REVIEW_PAGE)}
         />
       </Helmet>
       <ConfirmationDialog
-        contentText={t(translations.MESSAGE.DELETE_EMPLOYEE_CONFIRMATION, {
-          total: selected.length,
-        })}
+        contentText={t(
+          translations.MESSAGE.DELETE_PERFORMANCE_REVIEW_CONFIRMATION,
+          {
+            total: selected.length,
+          },
+        )}
         open={openConfirmationDialog}
         handleClose={onCloseConfirmationDialog}
         handleConfirm={() => onDelete(selected)}
@@ -163,7 +165,7 @@ export function EmployeeListPage() {
             variant="contained"
             onClick={() =>
               history.push(
-                `${PathConstant.HOME}${PathConstant.EMPLOYEE}${PathConstant.ADD}`,
+                `${PathConstant.HOME}${PathConstant.PERFORMANCE_REVIEW}${PathConstant.ADD}`,
               )
             }
           >
@@ -178,13 +180,24 @@ export function EmployeeListPage() {
                 <Checkbox
                   color="primary"
                   checked={
-                    users.length > 0 &&
-                    users.filter(user => selected.find(id => user.id === id))
-                      .length === users.length
+                    performanceReviews.length > 0 &&
+                    performanceReviews.filter(performanceReview =>
+                      selected.find(id => performanceReview.id === id),
+                    ).length === performanceReviews.length
                   }
-                  onChange={() => onHandleCheckAll(users.map(user => user.id))}
+                  onChange={() =>
+                    onHandleCheckAll(
+                      performanceReviews.map(
+                        performanceReview => performanceReview.id,
+                      ),
+                    )
+                  }
                 />
               ),
+              width: '75px',
+            },
+            {
+              display: t(translations.LABEL.VIEW),
               width: '75px',
             },
             {
@@ -192,50 +205,53 @@ export function EmployeeListPage() {
               width: '75px',
             },
             {
-              display: t(translations.LABEL.NAME),
+              display: t(translations.LABEL.REVIEW_PERIOD),
             },
             {
-              display: t(translations.LABEL.EMAIL_ADDRESS),
-            },
-            {
-              display: t(translations.LABEL.ACTIVE),
-            },
-            {
-              display: t(translations.LABEL.TYPE),
-            },
-            {
-              display: t(translations.LABEL.REVIEWERS),
-            },
-            {
-              display: t(translations.LABEL.REVIEWEES),
+              display: t(translations.LABEL.FEEDBACK_PERIOD),
             },
           ]}
-          tableData={users.map(user => {
+          tableData={performanceReviews.map(performanceReview => {
             return [
               <Checkbox
                 color="primary"
-                checked={selected.findIndex(id => id === user.id) > -1}
-                onChange={() => onHandleCheck(user.id)}
+                checked={
+                  selected.findIndex(id => id === performanceReview.id) > -1
+                }
+                onChange={() => onHandleCheck(performanceReview.id)}
               />,
               <IconButton
                 onClick={() =>
                   history.push(
-                    `${PathConstant.HOME}${PathConstant.EMPLOYEE}/${user.id}${PathConstant.EDIT}`,
+                    `${PathConstant.HOME}${PathConstant.PERFORMANCE_REVIEW}/${performanceReview.id}${PathConstant.VIEW}`,
+                  )
+                }
+              >
+                <Icon>visibility_on</Icon>
+              </IconButton>,
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    `${PathConstant.HOME}${PathConstant.PERFORMANCE_REVIEW}/${performanceReview.id}${PathConstant.EDIT}`,
                   )
                 }
               >
                 <Icon>edit</Icon>
               </IconButton>,
-              user.name,
-              user.email,
-              user.isActive ? (
-                <Icon className={classes.checkIcon}>check</Icon>
-              ) : (
-                <Icon className={classes.clearIcon}>clear</Icon>
-              ),
-              user.userType?.name,
-              <CustomAvatarGroup arr={user.reviewers} />,
-              <CustomAvatarGroup arr={user.reviewees} />,
+              `${format(
+                new Date(performanceReview.periodStart),
+                SettingConstant.SIMPLE_DATE_FORMAT,
+              )} ~ ${format(
+                new Date(performanceReview.periodEnd),
+                SettingConstant.SIMPLE_DATE_FORMAT,
+              )}`,
+              `${format(
+                new Date(performanceReview.feedbackStart),
+                SettingConstant.SIMPLE_DATE_FORMAT,
+              )} ~ ${format(
+                new Date(performanceReview.feedbackEnd),
+                SettingConstant.SIMPLE_DATE_FORMAT,
+              )}`,
             ];
           })}
           totalData={totalData}

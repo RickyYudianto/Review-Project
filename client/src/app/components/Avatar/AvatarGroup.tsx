@@ -14,8 +14,9 @@ export default function CustomAvatarGroup(props: IProps) {
   const { arr } = props;
   return (
     <AvatarGroup max={4}>
-      {arr.map(obj => (
+      {arr.map((obj, idx) => (
         <Avatar
+          key={idx}
           title={obj.name}
           style={{ background: stringToColor(obj.name) }}
         >

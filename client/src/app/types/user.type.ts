@@ -8,6 +8,7 @@ export interface UserState {
   totalData: number;
   page: number;
   size: number;
+  loading: boolean;
 }
 
 export type ContainerState = UserState;

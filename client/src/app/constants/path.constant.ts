@@ -7,4 +7,5 @@ export class PathConstant {
   public static readonly LOGIN = '/login';
   public static readonly PERFORMANCE_REVIEW = '/performance-review';
   public static readonly ROOT = '/';
+  public static readonly VIEW = '/view';
 }

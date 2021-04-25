@@ -6,6 +6,9 @@ import { PathConstant } from '../constants/path.constant';
 import { UserTypeEnum } from '../models/user-type.enum';
 import { EmployeeDetailPage } from '../pages/EmployeePage/DetailPage/Loadable';
 import { EmployeeListPage } from '../pages/EmployeePage/ListPage/Loadable';
+import { PerformanceReviewDetailPage } from '../pages/PerformanceReviewPage/DetailPage/Loadable';
+import { PerformanceReviewListPage } from '../pages/PerformanceReviewPage/ListPage/Loadable';
+import { PerformanceReviewViewPage } from '../pages/PerformanceReviewPage/ViewPage/Loadable';
 
 const homeRoutes = [
   {
@@ -32,9 +35,26 @@ const homeRoutes = [
     path: PathConstant.PERFORMANCE_REVIEW,
     name: 'Performance Review',
     icon: EventIcon,
-    component: NotFoundPage,
+    component: PerformanceReviewListPage,
     base: PathConstant.HOME,
     type: UserTypeEnum.ADMIN,
+    subRoute: [
+      {
+        path: PathConstant.ADD,
+        name: 'Add',
+        component: PerformanceReviewDetailPage,
+      },
+      {
+        path: `/:id${PathConstant.EDIT}`,
+        name: 'Edit',
+        component: PerformanceReviewDetailPage,
+      },
+      {
+        path: `/:id${PathConstant.VIEW}`,
+        name: 'View',
+        component: PerformanceReviewViewPage,
+      },
+    ],
   },
   {
     path: PathConstant.FEEDBACK,

@@ -5,25 +5,26 @@
  * code.
  */
 
-import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
+import DateFnsUtils from '@date-io/date-fns';
 
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+// Import root app
+import { App } from 'app';
 import { SnackbarProvider } from 'notistack';
 import * as React from 'react';
+import 'react-app-polyfill/ie11';
+import 'react-app-polyfill/stable';
 import * as ReactDOM from 'react-dom';
+
+import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
+
+import reportWebVitals from 'reportWebVitals';
 
 // Use consistent styling
 import 'sanitize.css/sanitize.css';
 
-// Import root app
-import { App } from 'app';
-
-import { HelmetProvider } from 'react-helmet-async';
-
 import { configureAppStore } from 'store/configureStore';
-
-import reportWebVitals from 'reportWebVitals';
 
 // Initialize languages
 import './locales/i18n';
@@ -35,9 +36,11 @@ ReactDOM.render(
   <Provider store={store}>
     <HelmetProvider>
       {/*<React.StrictMode>*/}
-      <SnackbarProvider maxSnack={3} autoHideDuration={3000}>
-        <App />
-      </SnackbarProvider>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <SnackbarProvider maxSnack={3} autoHideDuration={3000}>
+          <App />
+        </SnackbarProvider>
+      </MuiPickersUtilsProvider>
       {/*</React.StrictMode>*/}
     </HelmetProvider>
   </Provider>,

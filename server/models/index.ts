@@ -3,8 +3,8 @@
 import { Sequelize } from 'sequelize-typescript';
 import env from '../config/env';
 import Assign from './assign';
-import PerformanceFeedback from './performanceFeedback';
-import PerformanceReview from './performanceReview';
+import PerformanceFeedback from './performance-feedback';
+import PerformanceReview from './performance-review';
 import User from './user';
 import UserType from './userType';
 

@@ -46,30 +46,39 @@ const filterRoutes = userType =>
     prop => prop.type === UserTypeEnum.ALL || prop.type === userType,
   );
 
-const switchRoutes = userType => (
-  <Switch>
-    {filterRoutes(userType).map((prop, key) => (
-      <React.Fragment key={key}>
-        <Route
-          exact
-          path={`${prop.base}${prop.path}`}
-          component={prop.component}
-          key={key}
-        />
-        {prop.subRoute
-          ? prop.subRoute.map((subRouteProp, subRouteKey) => (
-              <Route
-                path={`${prop.base}${prop.path}${subRouteProp.path}`}
-                component={subRouteProp.component}
-                key={subRouteKey}
-              />
-            ))
-          : null}
-      </React.Fragment>
-    ))}
-    <Route path={`${PathConstant.HOME}/*`} component={NotFoundPage} />
-  </Switch>
-);
+const switchRoutes = userType => {
+  const routeList: any[] = [];
+  filterRoutes(userType).forEach((route, routeKey) => {
+    routeList.push(
+      <Route
+        exact
+        path={`${route.base}${route.path}`}
+        component={route.component}
+        key={routeKey}
+      />,
+    );
+
+    if (route.subRoute) {
+      route.subRoute.forEach((subRoute, subRouteKey) => {
+        routeList.push(
+          <Route
+            exact
+            key={subRouteKey}
+            path={`${route.base}${route.path}${subRoute.path}`}
+            component={subRoute.component}
+          />,
+        );
+      });
+    }
+  });
+
+  return (
+    <Switch>
+      {routeList}
+      <Route path={`${PathConstant.HOME}/*`} component={NotFoundPage} />
+    </Switch>
+  );
+};
 
 export function HomePage() {
   useInjectReducer({ key: authSliceKey, reducer: authReducer });

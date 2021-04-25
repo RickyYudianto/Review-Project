@@ -18,7 +18,6 @@ export const stringToColor = (string: string) => {
 export const generateInitial = (string: string) => {
   if (string.length > 1) {
     const arr = string.split(' ');
-    console.log(arr);
     if (arr.length > 1) {
       return arr[0].substr(0, 1) + arr[1].substr(0, 1);
     } else {

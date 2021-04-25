@@ -1,5 +1,5 @@
-import { createReducer } from '../reducers';
 import { Reducer } from '@reduxjs/toolkit';
+import { createReducer } from '../reducers';
 
 describe('reducer', () => {
   it('should inject reducers', () => {

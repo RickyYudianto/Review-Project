@@ -1,3 +1,4 @@
+import Box from '@material-ui/core/Box';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Input from '@material-ui/core/Input';
 import Radio from '@material-ui/core/Radio';
@@ -9,7 +10,7 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { NavLink, useHistory, useParams } from 'react-router-dom';
 import { translations } from '../../../../locales/translations';
 import { useInjectReducer } from '../../../../utils/redux-injectors';
 import { DefaultButton } from '../../../components/Button';
@@ -202,6 +203,13 @@ export function EmployeeDetailPage() {
       </Helmet>
       <GridContainer>
         <GridItem xs={6}>
+          <GridItem xs={12}>
+            <Box style={{ marginBottom: '24px' }}>
+              <NavLink to={`${PathConstant.HOME}${PathConstant.EMPLOYEE}`}>
+                {t(translations.LABEL.BACK_TO_LIST_PAGE)}
+              </NavLink>
+            </Box>
+          </GridItem>
           <GridItem xs={12}>
             <FormControlWrapper required>
               <Label>{t(translations.LABEL.NAME)}</Label>

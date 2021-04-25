@@ -1,12 +1,11 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from 'utils/@reduxjs/toolkit';
-import User from '../models/user.model';
-import { ContainerState } from '../types/user.type';
+import PerformanceReview from '../models/performance-review.model';
+import { ContainerState } from '../types/performance-review.type';
 
 export const initialState: ContainerState = {
-  users: [],
-  allUsers: [],
-  formValue: new User(),
+  performanceReviews: [],
+  formValue: new PerformanceReview(),
   selected: [],
   totalData: 0,
   page: 1,
@@ -14,20 +13,17 @@ export const initialState: ContainerState = {
   loading: false,
 };
 
-const userSlice = createSlice({
-  name: 'userState',
+const performanceReviewSlice = createSlice({
+  name: 'performanceReviewState',
   initialState,
   reducers: {
-    setList(state, action: PayloadAction<User[]>) {
-      state.users = action.payload;
-    },
-    setAllUserList(state, action: PayloadAction<User[]>) {
-      state.allUsers = action.payload;
+    setList(state, action: PayloadAction<PerformanceReview[]>) {
+      state.performanceReviews = action.payload;
     },
     setInitialFormValue(state) {
-      state.formValue = { ...state.formValue, ...new User() };
+      state.formValue = { ...state.formValue, ...new PerformanceReview() };
     },
-    setFormValue(state, action: PayloadAction<User>) {
+    setFormValue(state, action: PayloadAction<PerformanceReview>) {
       state.formValue = action.payload;
     },
     setSelected(state, action: PayloadAction<number>) {
@@ -66,10 +62,8 @@ const userSlice = createSlice({
     setLoading(state, action: PayloadAction<boolean>) {
       state.loading = action.payload;
     },
-
     resetState(state) {
-      state.users = initialState.users;
-      state.allUsers = initialState.allUsers;
+      state.performanceReviews = initialState.performanceReviews;
       state.formValue = initialState.formValue;
       state.selected = initialState.selected;
       state.totalData = initialState.totalData;
@@ -80,4 +74,4 @@ const userSlice = createSlice({
   },
 });
 
-export const { actions, reducer, name: sliceKey } = userSlice;
+export const { actions, reducer, name: sliceKey } = performanceReviewSlice;
