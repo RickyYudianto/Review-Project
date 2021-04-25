@@ -12,6 +12,7 @@ import { useHistory } from 'react-router-dom';
 import { translations } from '../../../../locales/translations';
 import { useInjectReducer } from '../../../../utils/redux-injectors';
 import CustomAvatarGroup from '../../../components/Avatar/AvatarGroup';
+import UserAvatar from '../../../components/Avatar/UserAvatar';
 import { DefaultButton } from '../../../components/Button';
 import ConfirmationDialog from '../../../components/Dialog/ConfirmationDialog';
 import { ListLoading } from '../../../components/Loading/ListLoading';
@@ -155,7 +156,7 @@ export function EmployeeListPage() {
         handleConfirm={() => onDelete(selected)}
       />
       {users.length <= 0 && loading ? (
-        <ListLoading />
+        <ListLoading renderActionSection />
       ) : (
         <div>
           <Box display="flex" justifyContent="space-between">
@@ -238,7 +239,7 @@ export function EmployeeListPage() {
                 >
                   <Icon>edit</Icon>
                 </IconButton>,
-                user.name,
+                <UserAvatar name={user.name} />,
                 user.email,
                 user.isActive ? (
                   <Icon className={classes.checkIcon}>check</Icon>

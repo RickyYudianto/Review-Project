@@ -83,7 +83,6 @@ export function LoginPage() {
                 setError('');
               }}
               onKeyPress={e => onKeyPressed(e)}
-              id="email"
               placeholder={t(translations.PLACEHOLDER.EMAIL_ADDRESS)}
               startAdornment={
                 <InputAdornment position="start">
@@ -102,7 +101,6 @@ export function LoginPage() {
               }}
               onKeyPress={e => onKeyPressed(e)}
               type="password"
-              id="password"
               placeholder={t(translations.PLACEHOLDER.PASSWORD)}
               startAdornment={
                 <InputAdornment position="start">

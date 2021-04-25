@@ -5,7 +5,7 @@ export const fromJsonToArrayOfObject = <T, V>(
   classType: ClassType<T>,
   json: V[],
 ): T[] => {
-  return plainToClass(classType, json);
+  return plainToClass(classType, json, { excludeExtraneousValues: true });
 };
 
 export const fromJsonToObj = <T, V>(classType: ClassType<T>, json: V): T => {

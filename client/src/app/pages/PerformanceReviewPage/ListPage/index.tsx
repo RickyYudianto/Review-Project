@@ -157,7 +157,7 @@ export function PerformanceReviewListPage() {
         handleConfirm={() => onDelete(selected)}
       />
       {performanceReviews.length <= 0 && loading ? (
-        <ListLoading />
+        <ListLoading renderActionSection />
       ) : (
         <div>
           <Box display="flex" justifyContent="space-between">

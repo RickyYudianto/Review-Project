@@ -45,7 +45,7 @@ export default function ConfirmationDialog(props: IProps) {
           </span>
         </Box>
       </DialogTitle>
-      <DialogContent>
+      <DialogContent dividers>
         <DialogContentText>{contentText}</DialogContentText>
       </DialogContent>
       <DialogActions className={classes.actions}>

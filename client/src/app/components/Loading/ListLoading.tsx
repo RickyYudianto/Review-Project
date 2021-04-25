@@ -18,14 +18,21 @@ const useStyle = makeStyles((theme: Theme) => ({
   },
 }));
 
-export function ListLoading() {
+interface IProps {
+  renderActionSection: boolean;
+}
+
+export function ListLoading(props: IProps) {
+  const { renderActionSection } = props;
   const classes = useStyle();
   return (
     <div>
-      <Box display="flex" justifyContent="space-between">
-        <Skeleton variant="rect" width={106} height={36} />
-        <Skeleton variant="rect" width={86} height={36} />
-      </Box>
+      {renderActionSection ? (
+        <Box display="flex" justifyContent="space-between">
+          <Skeleton variant="rect" width={106} height={36} />
+          <Skeleton variant="rect" width={86} height={36} />
+        </Box>
+      ) : null}
       <Skeleton variant="rect" height={150} style={{ marginTop: '24px' }} />
       <Box
         display="flex"

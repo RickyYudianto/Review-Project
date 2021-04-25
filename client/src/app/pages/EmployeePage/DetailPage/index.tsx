@@ -218,7 +218,6 @@ export function EmployeeDetailPage() {
                 onChange={e => {
                   onChangeFormValue({ name: e.target.value });
                 }}
-                id="name"
                 placeholder={t(translations.PLACEHOLDER.TYPE_EMPLOYEE_NAME)}
               />
             </FormControlWrapper>
@@ -231,7 +230,6 @@ export function EmployeeDetailPage() {
                 onChange={e => {
                   onChangeFormValue({ email: e.target.value });
                 }}
-                id="email"
                 placeholder={t(
                   translations.PLACEHOLDER.TYPE_EMPLOYEE_EMAIL_ADDRESS,
                 )}

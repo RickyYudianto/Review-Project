@@ -1,6 +1,7 @@
 {
   "LABEL": {
     "ACTIVE": "Active",
+    "ACTION": "Action",
     "ADD": "Add",
     "ADMIN": "Admin",
     "BACK_TO_LIST_PAGE": "< Back to list page",
@@ -10,9 +11,13 @@
     "EDIT": "Edit",
     "EMAIL_ADDRESS": "Email Address",
     "EMPLOYEE": "Employee",
+    "EXCELLENT": "Excellent",
+    "FAIR": "Fair",
+    "FEEDBACK": "Feedback",
     "FEEDBACK_END": "Feedback End",
     "FEEDBACK_PERIOD": "Feedback Period",
     "FEEDBACK_START": "Feedback Start",
+    "GOOD": "Good",
     "INACTIVE": "Inactive",
     "LOGIN": "Login",
     "LOGOUT": "Logout",
@@ -21,14 +26,20 @@
     "NOT_YET_REVIEWED": "Not yet reviewed",
     "PERIOD_END": "Period End",
     "PERIOD_START": "Period Start",
+    "POOR": "Poor",
     "REVIEW_PERIOD": "Review Period",
     "REVIEWERS": "Reviewers",
     "REVIEWEES": "Reviewees",
     "SAVE": "Save",
+    "SCORE": "Score",
+    "SEND": "Send",
     "STATUS": "Status",
     "TYPE": "Type",
+    "VERY_GOOD": "Very Good",
     "VIEW": "View",
     "WELCOME": "Welcome",
+    "WRITE": "Write",
+    "WRITE_FEEDBACK": "Write Feedback",
     "YES": "Yes"
   },
   "MESSAGE": {
@@ -47,10 +58,13 @@
     "EDIT_PERFORMANCE_REVIEW_FAILED": "Failed to edit performance review period {{period}}",
     "EDIT_PERFORMANCE_REVIEW_SUCCESS": "Success to edit performance review {{period}}",
     "INCORRECT_EMAIL_ADDRESS_OR_PASSWORD": "Incorrect email address or password",
-    "INFO_CREATE_PERFORMANCE_REVIEW": "Employee must be correctly assigned for performance review before create performance review. Any update after create performance review, will be affected for next performance review."
+    "INFO_CREATE_PERFORMANCE_REVIEW": "Employee must be correctly assigned for performance review before create performance review. Any update after create performance review, will be affected for next performance review.",
+    "WRITE_FEEDBACK_FAILED": "Failed to write feedback period: {{period}} for employee: {{employee}}",
+    "WRITE_FEEDBACK_SUCCESS": "Success to write feedback period: {{period}} for employee: {{employee}}"
   },
   "PAGE_TITLE": {
     "EMPLOYEE_PAGE": "Employee Page",
+    "FEEDBACK_PAGE": "Feedback Page",
     "HOME_PAGE": "Home Page",
     "LOGIN_PAGE": "Login Page",
     "PERFORMANCE_REVIEW_PAGE": "Performance Review Page"
@@ -61,6 +75,7 @@
     "SELECT_EMPLOYEE_REVIEWEES": "Select Employee Reviewees",
     "SELECT_EMPLOYEE_REVIEWERS": "Select Employee Reviewers",
     "TYPE_EMPLOYEE_EMAIL_ADDRESS": "Type Employee Email Address",
-    "TYPE_EMPLOYEE_NAME": "Type Employee Name"
+    "TYPE_EMPLOYEE_NAME": "Type Employee Name",
+    "TYPE_FEEDBACK": "Type Feedback"
   }
 }
