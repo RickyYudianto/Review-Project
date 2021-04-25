@@ -128,7 +128,6 @@ export function HomePage() {
 
   const handleLogout = () => {
     dispatch(authActions.setLoggedOut());
-    dispatch(authActions.resetState());
     dispatch(performanceFeedbackActions.resetState());
     dispatch(performanceReviewActions.resetState());
     dispatch(userActions.resetState());

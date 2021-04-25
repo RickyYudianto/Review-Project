@@ -130,7 +130,7 @@ export function PerformanceReviewViewPage() {
           </GridItem>
         ) : (
           <>
-            {performanceReview.id ? (
+            {performanceReview?.id ? (
               <GridItem xs={12}>
                 <Box style={{ marginBottom: '24px' }}>
                   <Typography variant="h5" gutterBottom>
