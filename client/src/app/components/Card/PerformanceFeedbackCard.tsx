@@ -85,12 +85,20 @@ export default function PerformanceFeedbackCard(props: IProps) {
   const renderScore = score => {
     const list: any[] = [];
     for (let i = 0; i < score; i++) {
-      list.push(<Icon className={classes.score}>star</Icon>);
+      list.push(
+        <Icon key={i} className={classes.score}>
+          star
+        </Icon>,
+      );
     }
 
     const emptyScore = SettingConstant.FEEDBACK_MAX_SCORE - score;
     for (let i = 0; i < emptyScore; i++) {
-      list.push(<Icon className={classes.emptyScore}>star</Icon>);
+      list.push(
+        <Icon key={score + i} className={classes.emptyScore}>
+          star
+        </Icon>,
+      );
     }
 
     return list;

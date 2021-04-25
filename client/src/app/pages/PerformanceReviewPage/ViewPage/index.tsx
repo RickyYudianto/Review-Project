@@ -114,7 +114,7 @@ export function PerformanceReviewViewPage() {
           content={t(translations.PAGE_TITLE.PERFORMANCE_REVIEW_PAGE)}
         />
       </Helmet>
-      <GridContainer xs={12}>
+      <GridContainer>
         <GridItem xs={12}>
           <Box style={{ marginBottom: '24px' }}>
             <NavLink
