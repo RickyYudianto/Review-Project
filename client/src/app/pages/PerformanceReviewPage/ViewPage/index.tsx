@@ -12,6 +12,7 @@ import { useInjectReducer } from '../../../../utils/redux-injectors';
 import PerformanceFeedbackCard from '../../../components/Card/PerformanceFeedbackCard';
 import GridContainer from '../../../components/Grid/GridContainer';
 import GridItem from '../../../components/Grid/GridItem';
+import { PerformanceReviewViewLoading } from '../../../components/Loading/PerformanceReviewViewLoading';
 import { CustomPagination } from '../../../components/Pagination';
 import { PathConstant } from '../../../constants/path.constant';
 import { SettingConstant } from '../../../constants/setting.constant';
@@ -22,6 +23,7 @@ import {
 import PerformanceReview from '../../../models/performance-review.model';
 import UserPerformanceFeedback from '../../../models/user-performance-feedback.model';
 import {
+  selectLoading,
   selectPage,
   selectPerformanceReview,
   selectSize,
@@ -58,26 +60,31 @@ export function PerformanceReviewViewPage() {
   const page = useSelector(selectPage);
   const size = useSelector(selectSize);
   const totalData = useSelector(selectTotalData);
+  const loading = useSelector(selectLoading);
 
   const fetchList = useCallback(() => {
+    dispatch(performanceFeedbackActions.setLoading(true));
     getAllEmployeePerformanceFeedback(params.id, {
       page,
       size,
-    }).then((result: any) => {
-      const userPerformanceFeedbacks: UserPerformanceFeedback[] = fromJsonToArrayOfObject(
-        UserPerformanceFeedback,
-        result.performanceFeedbacks,
-      );
-      const performanceReview: PerformanceReview = fromJsonToObj(
-        PerformanceReview,
-        result.performanceReview,
-      );
-      dispatch(performanceFeedbackActions.setList(userPerformanceFeedbacks));
-      dispatch(
-        performanceFeedbackActions.setPerformanceReview(performanceReview),
-      );
-      dispatch(performanceFeedbackActions.setTotalData(result.totalData));
-    });
+    })
+      .then((result: any) => {
+        dispatch(performanceFeedbackActions.setLoading(false));
+        const userPerformanceFeedbacks: UserPerformanceFeedback[] = fromJsonToArrayOfObject(
+          UserPerformanceFeedback,
+          result.performanceFeedbacks,
+        );
+        const performanceReview: PerformanceReview = fromJsonToObj(
+          PerformanceReview,
+          result.performanceReview,
+        );
+        dispatch(performanceFeedbackActions.setList(userPerformanceFeedbacks));
+        dispatch(
+          performanceFeedbackActions.setPerformanceReview(performanceReview),
+        );
+        dispatch(performanceFeedbackActions.setTotalData(result.totalData));
+      })
+      .catch(() => dispatch(performanceFeedbackActions.setLoading(false)));
   }, [dispatch, page, params.id, size]);
 
   const onHandleChangePage = page => {
@@ -91,6 +98,12 @@ export function PerformanceReviewViewPage() {
   useEffect(() => {
     fetchList();
   }, [fetchList, page, size]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(performanceFeedbackActions.resetState());
+    };
+  }, [dispatch]);
 
   return (
     <>
@@ -111,44 +124,54 @@ export function PerformanceReviewViewPage() {
             </NavLink>
           </Box>
         </GridItem>
-        {performanceReview.id ? (
+        {userPerformanceFeedbacks.length <= 0 && loading ? (
           <GridItem xs={12}>
-            <Box style={{ marginBottom: '24px' }}>
-              <Typography variant="h5" gutterBottom>
-                {format(
-                  new Date(performanceReview.periodStart),
-                  SettingConstant.SIMPLE_DATE_FORMAT,
-                )}{' '}
-                ~{' '}
-                {format(
-                  new Date(performanceReview.periodEnd),
-                  SettingConstant.SIMPLE_DATE_FORMAT,
-                )}
-              </Typography>
-            </Box>
+            <PerformanceReviewViewLoading />
           </GridItem>
-        ) : null}
-        <GridItem xs={12}>
-          <div className={classes.wrapper}>
-            {userPerformanceFeedbacks.map((userPerformanceFeedback, idx) => (
-              <PerformanceFeedbackCard
-                key={idx}
-                userPerformanceFeedback={userPerformanceFeedback}
-              />
-            ))}
-          </div>
-          <div>
-            {userPerformanceFeedbacks.length > 0 ? (
-              <CustomPagination
-                page={page}
-                size={size}
-                totalData={totalData}
-                handleChangePage={page => onHandleChangePage(page)}
-                handleChangeSize={size => onHandleChangeSize(size)}
-              />
+        ) : (
+          <>
+            {performanceReview.id ? (
+              <GridItem xs={12}>
+                <Box style={{ marginBottom: '24px' }}>
+                  <Typography variant="h5" gutterBottom>
+                    {format(
+                      new Date(performanceReview.periodStart),
+                      SettingConstant.SIMPLE_DATE_FORMAT,
+                    )}{' '}
+                    ~{' '}
+                    {format(
+                      new Date(performanceReview.periodEnd),
+                      SettingConstant.SIMPLE_DATE_FORMAT,
+                    )}
+                  </Typography>
+                </Box>
+              </GridItem>
             ) : null}
-          </div>
-        </GridItem>
+            <GridItem xs={12}>
+              <div className={classes.wrapper}>
+                {userPerformanceFeedbacks.map(
+                  (userPerformanceFeedback, idx) => (
+                    <PerformanceFeedbackCard
+                      key={idx}
+                      userPerformanceFeedback={userPerformanceFeedback}
+                    />
+                  ),
+                )}
+              </div>
+              <div>
+                {userPerformanceFeedbacks.length > 0 ? (
+                  <CustomPagination
+                    page={page}
+                    size={size}
+                    totalData={totalData}
+                    handleChangePage={page => onHandleChangePage(page)}
+                    handleChangeSize={size => onHandleChangeSize(size)}
+                  />
+                ) : null}
+              </div>
+            </GridItem>
+          </>
+        )}
       </GridContainer>
     </>
   );

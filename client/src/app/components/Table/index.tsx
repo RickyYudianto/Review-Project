@@ -9,7 +9,10 @@ import TableRow from '@material-ui/core/TableRow';
 import React from 'react';
 import { CustomPagination } from '../Pagination';
 
-const tableStyle = makeStyles((theme: Theme) => ({
+const useStyle = makeStyles((theme: Theme) => ({
+  container: {
+    minHeight: '150px',
+  },
   table: {
     marginBottom: '0',
     width: '100%',
@@ -58,11 +61,11 @@ export default function CustomTable(props: IProps) {
     handleChangePage,
     handleChangeSize,
   } = props;
-  const classes = tableStyle();
+  const classes = useStyle();
 
   return (
     <div className={classes.tableResponsive}>
-      <TableContainer>
+      <TableContainer className={classes.container}>
         <Table className={classes.table} stickyHeader>
           {tableHead !== undefined ? (
             <TableHead>

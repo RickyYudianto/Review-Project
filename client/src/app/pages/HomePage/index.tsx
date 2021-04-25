@@ -18,6 +18,21 @@ import {
   reducer as authReducer,
   sliceKey as authSliceKey,
 } from '../../slices/auth.slice';
+import {
+  actions as performanceFeedbackActions,
+  reducer as performanceFeedbackReducer,
+  sliceKey as performanceFeedbackSliceKey,
+} from '../../slices/performance-feedback.slice';
+import {
+  actions as performanceReviewActions,
+  reducer as performanceReviewReducer,
+  sliceKey as performanceReviewSliceKey,
+} from '../../slices/performance-review.slice';
+import {
+  actions as userActions,
+  reducer as userReducer,
+  sliceKey as userSliceKey,
+} from '../../slices/user.slice';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -82,6 +97,15 @@ const switchRoutes = userType => {
 
 export function HomePage() {
   useInjectReducer({ key: authSliceKey, reducer: authReducer });
+  useInjectReducer({
+    key: performanceFeedbackSliceKey,
+    reducer: performanceFeedbackReducer,
+  });
+  useInjectReducer({
+    key: performanceReviewSliceKey,
+    reducer: performanceReviewReducer,
+  });
+  useInjectReducer({ key: userSliceKey, reducer: userReducer });
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
@@ -107,6 +131,10 @@ export function HomePage() {
   const handleLogout = () => {
     logout({ refreshToken }).then(() => {
       dispatch(authActions.setLoggedOut());
+      dispatch(authActions.resetState());
+      dispatch(performanceFeedbackActions.resetState());
+      dispatch(performanceReviewActions.resetState());
+      dispatch(userActions.resetState());
       history.push(PathConstant.LOGIN);
     });
   };

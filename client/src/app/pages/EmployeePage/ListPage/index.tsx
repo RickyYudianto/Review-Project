@@ -14,11 +14,13 @@ import { useInjectReducer } from '../../../../utils/redux-injectors';
 import CustomAvatarGroup from '../../../components/Avatar/AvatarGroup';
 import { DefaultButton } from '../../../components/Button';
 import ConfirmationDialog from '../../../components/Dialog/ConfirmationDialog';
+import { ListLoading } from '../../../components/Loading/ListLoading';
 import CustomTable from '../../../components/Table';
 import { PathConstant } from '../../../constants/path.constant';
 import { fromJsonToArrayOfObject } from '../../../helpers/class-transformer.helper';
 import User from '../../../models/user.model';
 import {
+  selectLoading,
   selectPage,
   selectSelected,
   selectSize,
@@ -54,6 +56,7 @@ export function EmployeeListPage() {
   const page = useSelector(selectPage);
   const size = useSelector(selectSize);
   const totalData = useSelector(selectTotalData);
+  const loading = useSelector(selectLoading);
 
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
 
@@ -66,14 +69,18 @@ export function EmployeeListPage() {
   }, []);
 
   const fetchList = useCallback(() => {
+    dispatch(userActions.setLoading(true));
     getAllUser({
       page,
       size,
-    }).then((result: any) => {
-      const users: User[] = fromJsonToArrayOfObject(User, result.users);
-      dispatch(userActions.setList(users));
-      dispatch(userActions.setTotalData(result.totalData));
-    });
+    })
+      .then((result: any) => {
+        const users: User[] = fromJsonToArrayOfObject(User, result.users);
+        dispatch(userActions.setList(users));
+        dispatch(userActions.setTotalData(result.totalData));
+        dispatch(userActions.setLoading(false));
+      })
+      .catch(() => dispatch(userActions.setLoading(false)));
   }, [dispatch, page, size]);
 
   const onDelete = useCallback(
@@ -147,104 +154,110 @@ export function EmployeeListPage() {
         handleClose={onCloseConfirmationDialog}
         handleConfirm={() => onDelete(selected)}
       />
-      <div>
-        <Box display="flex" justifyContent="space-between">
-          <DefaultButton
-            color="secondary"
-            variant="contained"
-            onClick={onOpenConfirmationDialog}
-            disabled={selected.length === 0}
-          >
-            <Icon>delete</Icon>
-            {t(translations.LABEL.DELETE)}
-          </DefaultButton>
-          <DefaultButton
-            color="primary"
-            variant="contained"
-            onClick={() =>
-              history.push(
-                `${PathConstant.HOME}${PathConstant.EMPLOYEE}${PathConstant.ADD}`,
-              )
-            }
-          >
-            <Icon>add</Icon>
-            {t(translations.LABEL.ADD)}
-          </DefaultButton>
-        </Box>
-        <CustomTable
-          tableHead={[
-            {
-              display: (
+      {users.length <= 0 && loading ? (
+        <ListLoading />
+      ) : (
+        <div>
+          <Box display="flex" justifyContent="space-between">
+            <DefaultButton
+              color="secondary"
+              variant="contained"
+              onClick={onOpenConfirmationDialog}
+              disabled={selected.length === 0}
+            >
+              <Icon>delete</Icon>
+              {t(translations.LABEL.DELETE)}
+            </DefaultButton>
+            <DefaultButton
+              color="primary"
+              variant="contained"
+              onClick={() =>
+                history.push(
+                  `${PathConstant.HOME}${PathConstant.EMPLOYEE}${PathConstant.ADD}`,
+                )
+              }
+            >
+              <Icon>add</Icon>
+              {t(translations.LABEL.ADD)}
+            </DefaultButton>
+          </Box>
+          <CustomTable
+            tableHead={[
+              {
+                display: (
+                  <Checkbox
+                    color="primary"
+                    checked={
+                      users.length > 0 &&
+                      users.filter(user => selected.find(id => user.id === id))
+                        .length === users.length
+                    }
+                    onChange={() =>
+                      onHandleCheckAll(users.map(user => user.id))
+                    }
+                  />
+                ),
+                width: '75px',
+              },
+              {
+                display: t(translations.LABEL.EDIT),
+                width: '75px',
+              },
+              {
+                display: t(translations.LABEL.NAME),
+              },
+              {
+                display: t(translations.LABEL.EMAIL_ADDRESS),
+              },
+              {
+                display: t(translations.LABEL.ACTIVE),
+              },
+              {
+                display: t(translations.LABEL.TYPE),
+              },
+              {
+                display: t(translations.LABEL.REVIEWERS),
+              },
+              {
+                display: t(translations.LABEL.REVIEWEES),
+              },
+            ]}
+            tableData={users.map(user => {
+              return [
                 <Checkbox
                   color="primary"
-                  checked={
-                    users.length > 0 &&
-                    users.filter(user => selected.find(id => user.id === id))
-                      .length === users.length
+                  checked={selected.findIndex(id => id === user.id) > -1}
+                  onChange={() => onHandleCheck(user.id)}
+                />,
+                <IconButton
+                  onClick={() =>
+                    history.push(
+                      `${PathConstant.HOME}${PathConstant.EMPLOYEE}/${user.id}${PathConstant.EDIT}`,
+                    )
                   }
-                  onChange={() => onHandleCheckAll(users.map(user => user.id))}
-                />
-              ),
-              width: '75px',
-            },
-            {
-              display: t(translations.LABEL.EDIT),
-              width: '75px',
-            },
-            {
-              display: t(translations.LABEL.NAME),
-            },
-            {
-              display: t(translations.LABEL.EMAIL_ADDRESS),
-            },
-            {
-              display: t(translations.LABEL.ACTIVE),
-            },
-            {
-              display: t(translations.LABEL.TYPE),
-            },
-            {
-              display: t(translations.LABEL.REVIEWERS),
-            },
-            {
-              display: t(translations.LABEL.REVIEWEES),
-            },
-          ]}
-          tableData={users.map(user => {
-            return [
-              <Checkbox
-                color="primary"
-                checked={selected.findIndex(id => id === user.id) > -1}
-                onChange={() => onHandleCheck(user.id)}
-              />,
-              <IconButton
-                onClick={() =>
-                  history.push(
-                    `${PathConstant.HOME}${PathConstant.EMPLOYEE}/${user.id}${PathConstant.EDIT}`,
-                  )
-                }
-              >
-                <Icon>edit</Icon>
-              </IconButton>,
-              user.name,
-              user.email,
-              user.isActive ? (
-                <Icon className={classes.checkIcon}>check</Icon>
-              ) : (
-                <Icon className={classes.clearIcon}>clear</Icon>
-              ),
-              user.userType?.name,
-              <CustomAvatarGroup arr={user.reviewers} />,
-              <CustomAvatarGroup arr={user.reviewees} />,
-            ];
-          })}
-          totalData={totalData}
-          page={page}
-          size={size}
-          handleChangePage={page => onHandleChangePage(page)}
-          handleChangeSize={size => onHandleChangeSize(size)}
-        />
-      </div>
+                >
+                  <Icon>edit</Icon>
+                </IconButton>,
+                user.name,
+                user.email,
+                user.isActive ? (
+                  <Icon className={classes.checkIcon}>check</Icon>
+                ) : (
+                  <Icon className={classes.clearIcon}>clear</Icon>
+                ),
+                user.userType?.name,
+                <CustomAvatarGroup arr={user.reviewers} />,
+                <CustomAvatarGroup arr={user.reviewees} />,
+              ];
+            })}
+            totalData={totalData}
+            page={page}
+            size={size}
+            handleChangePage={page => onHandleChangePage(page)}
+            handleChangeSize={size => onHandleChangeSize(size)}
+          />
+        </div>
+      )}
     </>
   );
 }

@@ -13,12 +13,14 @@ import { translations } from '../../../../locales/translations';
 import { useInjectReducer } from '../../../../utils/redux-injectors';
 import { DefaultButton } from '../../../components/Button';
 import ConfirmationDialog from '../../../components/Dialog/ConfirmationDialog';
+import { ListLoading } from '../../../components/Loading/ListLoading';
 import CustomTable from '../../../components/Table';
 import { PathConstant } from '../../../constants/path.constant';
 import { SettingConstant } from '../../../constants/setting.constant';
 import { fromJsonToArrayOfObject } from '../../../helpers/class-transformer.helper';
 import PerformanceReview from '../../../models/performance-review.model';
 import {
+  selectLoading,
   selectPage,
   selectPerformanceReviews,
   selectSelected,
@@ -50,6 +52,7 @@ export function PerformanceReviewListPage() {
   const page = useSelector(selectPage);
   const size = useSelector(selectSize);
   const totalData = useSelector(selectTotalData);
+  const loading = useSelector(selectLoading);
 
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
 
@@ -62,17 +65,21 @@ export function PerformanceReviewListPage() {
   }, []);
 
   const fetchList = useCallback(() => {
+    dispatch(performanceReviewActions.setLoading(true));
     getAllPerformanceReview({
       page,
       size,
-    }).then((result: any) => {
-      const performanceReviews: PerformanceReview[] = fromJsonToArrayOfObject(
-        PerformanceReview,
-        result.performanceReviews,
-      );
-      dispatch(performanceReviewActions.setList(performanceReviews));
-      dispatch(performanceReviewActions.setTotalData(result.totalData));
-    });
+    })
+      .then((result: any) => {
+        dispatch(performanceReviewActions.setLoading(false));
+        const performanceReviews: PerformanceReview[] = fromJsonToArrayOfObject(
+          PerformanceReview,
+          result.performanceReviews,
+        );
+        dispatch(performanceReviewActions.setList(performanceReviews));
+        dispatch(performanceReviewActions.setTotalData(result.totalData));
+      })
+      .catch(() => dispatch(performanceReviewActions.setLoading(false)));
   }, [dispatch, page, size]);
 
   const onDelete = useCallback(
@@ -149,118 +156,122 @@ export function PerformanceReviewListPage() {
         handleClose={onCloseConfirmationDialog}
         handleConfirm={() => onDelete(selected)}
       />
-      <div>
-        <Box display="flex" justifyContent="space-between">
-          <DefaultButton
-            color="secondary"
-            variant="contained"
-            onClick={onOpenConfirmationDialog}
-            disabled={selected.length === 0}
-          >
-            <Icon>delete</Icon>
-            {t(translations.LABEL.DELETE)}
-          </DefaultButton>
-          <DefaultButton
-            color="primary"
-            variant="contained"
-            onClick={() =>
-              history.push(
-                `${PathConstant.HOME}${PathConstant.PERFORMANCE_REVIEW}${PathConstant.ADD}`,
-              )
-            }
-          >
-            <Icon>add</Icon>
-            {t(translations.LABEL.ADD)}
-          </DefaultButton>
-        </Box>
-        <CustomTable
-          tableHead={[
-            {
-              display: (
+      {performanceReviews.length <= 0 && loading ? (
+        <ListLoading />
+      ) : (
+        <div>
+          <Box display="flex" justifyContent="space-between">
+            <DefaultButton
+              color="secondary"
+              variant="contained"
+              onClick={onOpenConfirmationDialog}
+              disabled={selected.length === 0}
+            >
+              <Icon>delete</Icon>
+              {t(translations.LABEL.DELETE)}
+            </DefaultButton>
+            <DefaultButton
+              color="primary"
+              variant="contained"
+              onClick={() =>
+                history.push(
+                  `${PathConstant.HOME}${PathConstant.PERFORMANCE_REVIEW}${PathConstant.ADD}`,
+                )
+              }
+            >
+              <Icon>add</Icon>
+              {t(translations.LABEL.ADD)}
+            </DefaultButton>
+          </Box>
+          <CustomTable
+            tableHead={[
+              {
+                display: (
+                  <Checkbox
+                    color="primary"
+                    checked={
+                      performanceReviews.length > 0 &&
+                      performanceReviews.filter(performanceReview =>
+                        selected.find(id => performanceReview.id === id),
+                      ).length === performanceReviews.length
+                    }
+                    onChange={() =>
+                      onHandleCheckAll(
+                        performanceReviews.map(
+                          performanceReview => performanceReview.id,
+                        ),
+                      )
+                    }
+                  />
+                ),
+                width: '75px',
+              },
+              {
+                display: t(translations.LABEL.VIEW),
+                width: '75px',
+              },
+              {
+                display: t(translations.LABEL.EDIT),
+                width: '75px',
+              },
+              {
+                display: t(translations.LABEL.REVIEW_PERIOD),
+              },
+              {
+                display: t(translations.LABEL.FEEDBACK_PERIOD),
+              },
+            ]}
+            tableData={performanceReviews.map(performanceReview => {
+              return [
                 <Checkbox
                   color="primary"
                   checked={
-                    performanceReviews.length > 0 &&
-                    performanceReviews.filter(performanceReview =>
-                      selected.find(id => performanceReview.id === id),
-                    ).length === performanceReviews.length
+                    selected.findIndex(id => id === performanceReview.id) > -1
                   }
-                  onChange={() =>
-                    onHandleCheckAll(
-                      performanceReviews.map(
-                        performanceReview => performanceReview.id,
-                      ),
+                  onChange={() => onHandleCheck(performanceReview.id)}
+                />,
+                <IconButton
+                  onClick={() =>
+                    history.push(
+                      `${PathConstant.HOME}${PathConstant.PERFORMANCE_REVIEW}/${performanceReview.id}${PathConstant.VIEW}`,
                     )
                   }
-                />
-              ),
-              width: '75px',
-            },
-            {
-              display: t(translations.LABEL.VIEW),
-              width: '75px',
-            },
-            {
-              display: t(translations.LABEL.EDIT),
-              width: '75px',
-            },
-            {
-              display: t(translations.LABEL.REVIEW_PERIOD),
-            },
-            {
-              display: t(translations.LABEL.FEEDBACK_PERIOD),
-            },
-          ]}
-          tableData={performanceReviews.map(performanceReview => {
-            return [
-              <Checkbox
-                color="primary"
-                checked={
-                  selected.findIndex(id => id === performanceReview.id) > -1
-                }
-                onChange={() => onHandleCheck(performanceReview.id)}
-              />,
-              <IconButton
-                onClick={() =>
-                  history.push(
-                    `${PathConstant.HOME}${PathConstant.PERFORMANCE_REVIEW}/${performanceReview.id}${PathConstant.VIEW}`,
-                  )
-                }
-              >
-                <Icon>visibility_on</Icon>
-              </IconButton>,
-              <IconButton
-                onClick={() =>
-                  history.push(
-                    `${PathConstant.HOME}${PathConstant.PERFORMANCE_REVIEW}/${performanceReview.id}${PathConstant.EDIT}`,
-                  )
-                }
-              >
-                <Icon>edit</Icon>
-              </IconButton>,
-              `${format(
-                new Date(performanceReview.periodStart),
-                SettingConstant.SIMPLE_DATE_FORMAT,
-              )} ~ ${format(
-                new Date(performanceReview.periodEnd),
-                SettingConstant.SIMPLE_DATE_FORMAT,
-              )}`,
-              `${format(
-                new Date(performanceReview.feedbackStart),
-                SettingConstant.SIMPLE_DATE_FORMAT,
-              )} ~ ${format(
-                new Date(performanceReview.feedbackEnd),
-                SettingConstant.SIMPLE_DATE_FORMAT,
-              )}`,
-            ];
-          })}
-          totalData={totalData}
-          page={page}
-          size={size}
-          handleChangePage={page => onHandleChangePage(page)}
-          handleChangeSize={size => onHandleChangeSize(size)}
-        />
-      </div>
+                >
+                  <Icon>visibility_on</Icon>
+                </IconButton>,
+                <IconButton
+                  onClick={() =>
+                    history.push(
+                      `${PathConstant.HOME}${PathConstant.PERFORMANCE_REVIEW}/${performanceReview.id}${PathConstant.EDIT}`,
+                    )
+                  }
+                >
+                  <Icon>edit</Icon>
+                </IconButton>,
+                `${format(
+                  new Date(performanceReview.periodStart),
+                  SettingConstant.SIMPLE_DATE_FORMAT,
+                )} ~ ${format(
+                  new Date(performanceReview.periodEnd),
+                  SettingConstant.SIMPLE_DATE_FORMAT,
+                )}`,
+                `${format(
+                  new Date(performanceReview.feedbackStart),
+                  SettingConstant.SIMPLE_DATE_FORMAT,
+                )} ~ ${format(
+                  new Date(performanceReview.feedbackEnd),
+                  SettingConstant.SIMPLE_DATE_FORMAT,
+                )}`,
+              ];
+            })}
+            totalData={totalData}
+            page={page}
+            size={size}
+            handleChangePage={page => onHandleChangePage(page)}
+            handleChangeSize={size => onHandleChangeSize(size)}
+          />
+        </div>
+      )}
     </>
   );
 }

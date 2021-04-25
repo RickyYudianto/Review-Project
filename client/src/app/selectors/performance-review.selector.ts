@@ -35,3 +35,8 @@ export const selectSize = createSelector(
   [selectDomain],
   performanceReviewState => performanceReviewState.size,
 );
+
+export const selectLoading = createSelector(
+  [selectDomain],
+  performanceReviewState => performanceReviewState.loading,
+);

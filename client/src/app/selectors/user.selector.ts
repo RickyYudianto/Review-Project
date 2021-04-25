@@ -39,3 +39,8 @@ export const selectSize = createSelector(
   [selectDomain],
   userState => userState.size,
 );
+
+export const selectLoading = createSelector(
+  [selectDomain],
+  userState => userState.loading,
+);
