@@ -47,7 +47,7 @@ export default function FeedbackDialog(props: IProps) {
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>{t(translations.LABEL.WRITE_FEEDBACK)}</DialogTitle>
       <DialogContent dividers>
-        <FormControlWrapper>
+        <FormControlWrapper style={{ marginTop: 0 }}>
           <Label>{t(translations.LABEL.REVIEW_PERIOD)}</Label>
           <span>
             {format(
@@ -64,6 +64,10 @@ export default function FeedbackDialog(props: IProps) {
         <FormControlWrapper>
           <Label>{t(translations.LABEL.NAME)}</Label>
           <span>{formValue.user.name}</span>
+        </FormControlWrapper>
+        <FormControlWrapper>
+          <Label>{t(translations.LABEL.EMAIL_ADDRESS)}</Label>
+          <span>{formValue.user.email}</span>
         </FormControlWrapper>
         <FormControlWrapper required>
           <Label>{t(translations.LABEL.SCORE)}</Label>

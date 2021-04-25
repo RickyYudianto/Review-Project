@@ -14,7 +14,7 @@ export default class PerformanceFeedbackController {
       include: [{
         model: User,
         as: 'reviewer',
-        attributes: ['id', 'name']
+        attributes: ['id', 'name', 'email']
       }]
     }).then(result => result.map(obj => obj.toJSON()));
   }
@@ -84,7 +84,7 @@ export default class PerformanceFeedbackController {
         {
           model: User,
           as: 'user',
-          attributes: ['id', 'name']
+          attributes: ['id', 'name', 'email']
         }
       ],
       where: {

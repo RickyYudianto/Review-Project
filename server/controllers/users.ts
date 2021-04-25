@@ -12,7 +12,7 @@ export default class UserController {
       include: [{
         model: User,
         as: 'reviewers',
-        attributes: ['id', 'name']
+        attributes: ['id', 'name', 'email']
       }],
     }).then((result) => {
       return result.map(obj => obj.reviewers.toJSON());
@@ -27,7 +27,7 @@ export default class UserController {
       include: [{
         model: User,
         as: 'users',
-        attributes: ['id', 'name']
+        attributes: ['id', 'name', 'email']
       }],
     }).then((result) => {
       return result.map(obj => obj.users.toJSON());

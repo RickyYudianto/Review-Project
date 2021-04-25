@@ -177,6 +177,9 @@ export function FeedbackListPage() {
                 display: t(translations.LABEL.NAME),
               },
               {
+                display: t(translations.LABEL.EMAIL_ADDRESS),
+              },
+              {
                 display: t(translations.LABEL.ACTION),
                 width: '150px',
               },
@@ -198,6 +201,7 @@ export function FeedbackListPage() {
                   SettingConstant.SIMPLE_DATE_FORMAT,
                 )}`,
                 <UserAvatar name={pendingFeedback.user.name} />,
+                pendingFeedback.user.email,
                 <DefaultButton
                   color="primary"
                   variant="contained"
