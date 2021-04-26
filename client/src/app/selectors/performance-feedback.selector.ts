@@ -1,10 +1,8 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 import { RootState } from 'types';
-import { initialState } from '../slices/performance-feedback.slice';
 
-const selectDomain = (state: RootState) =>
-  state.performanceFeedbackState || initialState;
+const selectDomain = (state: RootState) => state.performanceFeedbackState;
 
 export const selectUserPerformanceFeedbacks = createSelector(
   [selectDomain],

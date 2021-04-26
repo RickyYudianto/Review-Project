@@ -1,10 +1,8 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 import { RootState } from 'types';
-import { initialState } from '../slices/pending-feedback.slice';
 
-const selectDomain = (state: RootState) =>
-  state.pendingFeedbackState || initialState;
+const selectDomain = (state: RootState) => state.pendingFeedbackState;
 
 export const selectPendingFeedbacks = createSelector(
   [selectDomain],

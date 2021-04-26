@@ -1,10 +1,8 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 import { RootState } from 'types';
-import { initialState } from '../slices/performance-review.slice';
 
-const selectDomain = (state: RootState) =>
-  state.performanceReviewState || initialState;
+const selectDomain = (state: RootState) => state.performanceReviewState;
 
 export const selectPerformanceReviews = createSelector(
   [selectDomain],

@@ -1,9 +1,8 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 import { RootState } from 'types';
-import { initialState } from '../slices/user.slice';
 
-const selectDomain = (state: RootState) => state.userState || initialState;
+const selectDomain = (state: RootState) => state.userState;
 
 export const selectUsers = createSelector(
   [selectDomain],
