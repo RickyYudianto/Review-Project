@@ -3,7 +3,7 @@ import { EndpointConstant } from '../constants/endpoint.constant';
 import PendingFeedback from '../models/pending-feedback.model';
 
 export const getAllEmployeePerformanceFeedback = (
-  performanceReviewId: string,
+  performanceReviewId: number,
   getParam: {
     page: number | null;
     size: number | null;
@@ -26,7 +26,7 @@ export const getEmployeePerformanceFeedbackById = (
   });
 
 export const getAllPendingFeedback = (
-  reviewerId: string,
+  reviewerId: number,
   getParam: {
     page: number | null;
     size: number | null;
@@ -51,7 +51,7 @@ export const updateFeedback = (
     score: pendingFeedback.score,
     feedback: pendingFeedback.feedback,
   };
-  console.log(params);
+
   return apiHelper.putRequest({
     url: EndpointConstant.PERFORMANCE_FEEDBACKS,
     params,
