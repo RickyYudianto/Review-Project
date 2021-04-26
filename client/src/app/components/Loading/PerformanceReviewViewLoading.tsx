@@ -1,12 +1,12 @@
-import { Theme } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import createStyles from '@material-ui/core/styles/createStyles';
+import withStyles from '@material-ui/core/styles/withStyles';
 import { Skeleton } from '@material-ui/lab';
 import React from 'react';
 
-const useStyle = makeStyles((theme: Theme) => ({
+const style = createStyles({
   list: {
     display: 'flex',
     flexDirection: 'row',
@@ -16,10 +16,10 @@ const useStyle = makeStyles((theme: Theme) => ({
     margin: '0 3px',
     padding: 0,
   },
-}));
+});
 
-export function PerformanceReviewViewLoading() {
-  const classes = useStyle();
+function PerformanceReviewViewLoading(props: any) {
+  const { classes } = props;
   return (
     <div>
       <Skeleton variant="text" width={340} height={32} />
@@ -53,3 +53,5 @@ export function PerformanceReviewViewLoading() {
     </div>
   );
 }
+
+export default withStyles(style)(PerformanceReviewViewLoading);

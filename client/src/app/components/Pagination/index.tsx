@@ -1,12 +1,12 @@
-import { Theme } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import createStyles from '@material-ui/core/styles/createStyles';
+import withStyles from '@material-ui/core/styles/withStyles';
 import Pagination from '@material-ui/lab/Pagination';
 import React, { useMemo } from 'react';
 
-const paginationStyle = makeStyles((theme: Theme) => ({
+const style = createStyles(theme => ({
   pagination: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -15,7 +15,8 @@ const paginationStyle = makeStyles((theme: Theme) => ({
   },
 }));
 
-interface PaginationIProps {
+interface IProps {
+  classes: any;
   page: number;
   size: number;
   totalData: number;
@@ -23,9 +24,15 @@ interface PaginationIProps {
   handleChangeSize: (size) => void;
 }
 
-export function CustomPagination(props: PaginationIProps) {
-  const { page, size, totalData, handleChangePage, handleChangeSize } = props;
-  const classes = paginationStyle();
+function CustomPagination(props: IProps) {
+  const {
+    classes,
+    page,
+    size,
+    totalData,
+    handleChangePage,
+    handleChangeSize,
+  } = props;
 
   const totalMaxPage = useMemo(() => {
     const itemDivide = Math.floor(totalData / size);
@@ -57,3 +64,5 @@ export function CustomPagination(props: PaginationIProps) {
     </Box>
   );
 }
+
+export default withStyles(style)(CustomPagination);

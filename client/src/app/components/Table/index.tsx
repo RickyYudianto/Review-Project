@@ -1,6 +1,6 @@
-import { Theme } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import createStyles from '@material-ui/core/styles/createStyles';
+import withStyles from '@material-ui/core/styles/withStyles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -10,9 +10,9 @@ import TableRow from '@material-ui/core/TableRow';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/translations';
-import { CustomPagination } from '../Pagination';
+import CustomPagination from '../Pagination';
 
-const useStyle = makeStyles((theme: Theme) => ({
+const style = createStyles(theme => ({
   container: {
     minHeight: '150px',
   },
@@ -45,6 +45,7 @@ const useStyle = makeStyles((theme: Theme) => ({
 }));
 
 interface IProps {
+  classes: any;
   tableHead: any[];
   tableData: any[][];
   totalData: number;
@@ -54,8 +55,9 @@ interface IProps {
   handleChangeSize: (event) => void;
 }
 
-export default function CustomTable(props: IProps) {
+function CustomTable(props: IProps) {
   const {
+    classes,
     tableHead,
     tableData,
     totalData,
@@ -64,14 +66,13 @@ export default function CustomTable(props: IProps) {
     handleChangePage,
     handleChangeSize,
   } = props;
-  const classes = useStyle();
   const { t } = useTranslation();
 
   return (
     <div className={classes.tableResponsive}>
       <TableContainer className={classes.container}>
         <Table className={classes.table} stickyHeader>
-          {tableHead !== undefined ? (
+          {tableHead.length > 0 ? (
             <TableHead>
               <TableRow>
                 {tableHead.map((prop: any, key: any) => {
@@ -134,3 +135,5 @@ export default function CustomTable(props: IProps) {
     </div>
   );
 }
+
+export default withStyles(style)(CustomTable);

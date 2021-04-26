@@ -1,5 +1,5 @@
 import Box from '@material-ui/core/Box';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 import Typography from '@material-ui/core/Typography';
 import format from 'date-fns/format';
 import React, { useCallback, useEffect } from 'react';
@@ -12,8 +12,8 @@ import { useInjectReducer } from '../../../../utils/redux-injectors';
 import PerformanceFeedbackCard from '../../../components/Card/PerformanceFeedbackCard';
 import GridContainer from '../../../components/Grid/GridContainer';
 import GridItem from '../../../components/Grid/GridItem';
-import { PerformanceReviewViewLoading } from '../../../components/Loading/PerformanceReviewViewLoading';
-import { CustomPagination } from '../../../components/Pagination';
+import PerformanceReviewViewLoading from '../../../components/Loading/PerformanceReviewViewLoading';
+import CustomPagination from '../../../components/Pagination';
 import { PathConstant } from '../../../constants/path.constant';
 import { SettingConstant } from '../../../constants/setting.constant';
 import {
@@ -37,13 +37,13 @@ import {
   sliceKey as performanceFeedbackSliceKey,
 } from '../../../slices/performance-feedback.slice';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   wrapper: {
     display: 'grid',
     flexWrap: 'wrap',
     flexFlow: 'row wrap',
   },
-}));
+});
 
 export function PerformanceReviewViewPage() {
   useInjectReducer({
@@ -64,7 +64,7 @@ export function PerformanceReviewViewPage() {
 
   const fetchList = useCallback(() => {
     dispatch(performanceFeedbackActions.setLoading(true));
-    getAllEmployeePerformanceFeedback(params.id, {
+    getAllEmployeePerformanceFeedback(parseInt(params.id), {
       page,
       size,
     })

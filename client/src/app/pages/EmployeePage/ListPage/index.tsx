@@ -15,7 +15,7 @@ import CustomAvatarGroup from '../../../components/Avatar/AvatarGroup';
 import UserAvatar from '../../../components/Avatar/UserAvatar';
 import { DefaultButton } from '../../../components/Button';
 import ConfirmationDialog from '../../../components/Dialog/ConfirmationDialog';
-import { ListLoading } from '../../../components/Loading/ListLoading';
+import ListLoading from '../../../components/Loading/ListLoading';
 import CustomTable from '../../../components/Table';
 import { PathConstant } from '../../../constants/path.constant';
 import { fromJsonToArrayOfObject } from '../../../helpers/class-transformer.helper';

@@ -10,7 +10,7 @@ import { useInjectReducer } from '../../../../utils/redux-injectors';
 import UserAvatar from '../../../components/Avatar/UserAvatar';
 import { DefaultButton } from '../../../components/Button';
 import FeedbackDialog from '../../../components/Dialog/FeedbackDialog';
-import { ListLoading } from '../../../components/Loading/ListLoading';
+import ListLoading from '../../../components/Loading/ListLoading';
 import CustomTable from '../../../components/Table';
 import { SettingConstant } from '../../../constants/setting.constant';
 import { fromJsonToArrayOfObject } from '../../../helpers/class-transformer.helper';
@@ -61,22 +61,24 @@ export function FeedbackListPage() {
   }, []);
 
   const fetchList = useCallback(() => {
-    dispatch(pendingFeedbackActions.setLoading(true));
-    const reviewerId = user && user.id ? user.id.toString() : '';
-    getAllPendingFeedback(reviewerId, {
-      page,
-      size,
-    })
-      .then((result: any) => {
-        dispatch(pendingFeedbackActions.setLoading(false));
-        const pendingFeedbacks: PendingFeedback[] = fromJsonToArrayOfObject(
-          PendingFeedback,
-          result.pendingFeedbacks,
-        );
-        dispatch(pendingFeedbackActions.setList(pendingFeedbacks));
-        dispatch(pendingFeedbackActions.setTotalData(result.totalData));
+    const reviewerId = user && user.id ? user.id : null;
+    if (reviewerId) {
+      dispatch(pendingFeedbackActions.setLoading(true));
+      getAllPendingFeedback(reviewerId, {
+        page,
+        size,
       })
-      .catch(() => dispatch(pendingFeedbackActions.setLoading(false)));
+        .then((result: any) => {
+          dispatch(pendingFeedbackActions.setLoading(false));
+          const pendingFeedbacks: PendingFeedback[] = fromJsonToArrayOfObject(
+            PendingFeedback,
+            result.pendingFeedbacks,
+          );
+          dispatch(pendingFeedbackActions.setList(pendingFeedbacks));
+          dispatch(pendingFeedbackActions.setTotalData(result.totalData));
+        })
+        .catch(() => dispatch(pendingFeedbackActions.setLoading(false)));
+    }
   }, [dispatch, page, size, user]);
 
   const onHandleChangePage = page => {

@@ -6,7 +6,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Input from '@material-ui/core/Input';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import createStyles from '@material-ui/core/styles/createStyles';
+import withStyles from '@material-ui/core/styles/withStyles';
 import format from 'date-fns/format';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -17,14 +18,15 @@ import { DefaultButton } from '../Button';
 import { Label } from '../Label';
 import { FormControlWrapper } from '../Wrapper';
 
-const useStyles = makeStyles(theme => ({
+const style = createStyles({
   actions: {
     justifyContent: 'flex-start',
     padding: '8px 24px',
   },
-}));
+});
 
 interface IProps {
+  classes: any;
   formValue: PendingFeedback;
   open: boolean;
   onChangeFormValue: (value) => void;
@@ -32,15 +34,15 @@ interface IProps {
   handleConfirm: () => void;
 }
 
-export default function FeedbackDialog(props: IProps) {
+function FeedbackDialog(props: IProps) {
   const {
+    classes,
     formValue,
     open,
     onChangeFormValue,
     handleClose,
     handleConfirm,
   } = props;
-  const classes = useStyles();
   const { t } = useTranslation();
 
   return (
@@ -138,3 +140,5 @@ export default function FeedbackDialog(props: IProps) {
     </Dialog>
   );
 }
+
+export default withStyles(style)(FeedbackDialog);

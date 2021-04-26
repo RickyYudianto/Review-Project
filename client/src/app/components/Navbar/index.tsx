@@ -1,7 +1,8 @@
-import { makeStyles } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
+import createStyles from '@material-ui/core/styles/createStyles';
+import withStyles from '@material-ui/core/styles/withStyles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import ExitToApp from '@material-ui/icons/ExitToApp';
@@ -13,7 +14,7 @@ import { SettingConstant } from '../../constants/setting.constant';
 import User from '../../models/user.model';
 
 const SIDEBAR_DRAWER_WIDTH = SettingConstant.SIDEBAR_DRAWER_WIDTH;
-const useStyles = makeStyles(theme => ({
+const style = createStyles(theme => ({
   toolbar: {
     paddingRight: 24,
   },
@@ -44,6 +45,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface IProps {
+  classes: any;
   isMobile: boolean;
   openDrawer: boolean;
   title: string;
@@ -52,8 +54,9 @@ interface IProps {
   handleLogout: () => void;
 }
 
-export function Navbar(props: IProps) {
+function Navbar(props: IProps) {
   const {
+    classes,
     isMobile,
     openDrawer,
     title,
@@ -61,7 +64,6 @@ export function Navbar(props: IProps) {
     handleDrawerOpen,
     handleLogout,
   } = props;
-  const classes = useStyles();
   const { t } = useTranslation();
 
   return (
@@ -107,3 +109,5 @@ export function Navbar(props: IProps) {
     </AppBar>
   );
 }
+
+export default withStyles(style)(Navbar);

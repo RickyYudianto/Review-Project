@@ -7,7 +7,8 @@ import Collapse from '@material-ui/core/Collapse';
 import Divider from '@material-ui/core/Divider';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
-import { makeStyles } from '@material-ui/core/styles';
+import createStyles from '@material-ui/core/styles/createStyles';
+import withStyles from '@material-ui/core/styles/withStyles';
 import clsx from 'clsx';
 import format from 'date-fns/format';
 import React, { useState } from 'react';
@@ -20,7 +21,7 @@ import {
 } from '../../helpers/avatar-user.helper';
 import UserPerformanceFeedback from '../../models/user-performance-feedback.model';
 
-const useStyles = makeStyles(theme => ({
+const style = createStyles(theme => ({
   root: {
     height: 'fit-content',
     marginBottom: theme.spacing(3),
@@ -69,12 +70,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface IProps {
+  classes: any;
   userPerformanceFeedback: UserPerformanceFeedback;
 }
 
-export default function PerformanceFeedbackCard(props: IProps) {
-  const { userPerformanceFeedback } = props;
-  const classes = useStyles();
+function PerformanceFeedbackCard(props: IProps) {
+  const { classes, userPerformanceFeedback } = props;
   const [expanded, setExpanded] = useState(false);
   const { t } = useTranslation();
 
@@ -191,3 +192,5 @@ export default function PerformanceFeedbackCard(props: IProps) {
     </Card>
   );
 }
+
+export default withStyles(style)(PerformanceFeedbackCard);

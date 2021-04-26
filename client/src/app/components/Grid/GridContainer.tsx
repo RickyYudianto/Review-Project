@@ -1,5 +1,5 @@
-import { createStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
+import createStyles from '@material-ui/core/styles/createStyles';
 import withStyles from '@material-ui/core/styles/withStyles';
 import React from 'react';
 

@@ -7,7 +7,8 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import createStyles from '@material-ui/core/styles/createStyles';
+import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
 import clsx from 'clsx';
 import React from 'react';
@@ -15,7 +16,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { SettingConstant } from '../../constants/setting.constant';
 
 const SIDEBAR_DRAWER_WIDTH = SettingConstant.SIDEBAR_DRAWER_WIDTH;
-const useStyles = makeStyles(theme => ({
+const style = createStyles(theme => ({
   toolbarIcon: {
     display: 'flex',
     alignItems: 'center',
@@ -88,15 +89,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface IProps {
+  classes: any;
   open: boolean;
   routes: any[];
   handleDrawerClose: () => void;
 }
 
-export function Sidebar(props: IProps) {
-  const { open, routes, handleDrawerClose } = props;
+function Sidebar(props: IProps) {
+  const { classes, open, routes, handleDrawerClose } = props;
   const location = useLocation();
-  const classes = useStyles();
 
   const activeRoute = (routeName: any) => {
     return location.pathname.includes(routeName);
@@ -124,11 +125,7 @@ export function Sidebar(props: IProps) {
                     : ''
                 }
               >
-                {typeof prop.icon === 'string' ? (
-                  <Icon>{prop.icon}</Icon>
-                ) : (
-                  <prop.icon />
-                )}
+                <prop.icon />
               </ListItemIcon>
               <ListItemText>
                 <span
@@ -170,3 +167,5 @@ export function Sidebar(props: IProps) {
     </Drawer>
   );
 }
+
+export default withStyles(style)(Sidebar);

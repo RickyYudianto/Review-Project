@@ -13,7 +13,7 @@ import { translations } from '../../../../locales/translations';
 import { useInjectReducer } from '../../../../utils/redux-injectors';
 import { DefaultButton } from '../../../components/Button';
 import ConfirmationDialog from '../../../components/Dialog/ConfirmationDialog';
-import { ListLoading } from '../../../components/Loading/ListLoading';
+import ListLoading from '../../../components/Loading/ListLoading';
 import CustomTable from '../../../components/Table';
 import { PathConstant } from '../../../constants/path.constant';
 import { SettingConstant } from '../../../constants/setting.constant';

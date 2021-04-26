@@ -58,9 +58,15 @@
     }
   },
   "jest": {
+    "coverageReporters": [
+      "text",
+      "html"
+    ],
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
       "!src/**/*/*.d.ts",
+      "!src/**/models/*.{js,jsx,ts,tsx}",
+      "!src/utils/**/*.{js,jsx,ts,tsx}",
       "!src/**/*/Loadable.{js,jsx,ts,tsx}",
       "!src/**/*/messages.ts",
       "!src/reportWebVitals.ts",
@@ -69,10 +75,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 90,
-        "functions": 90,
-        "lines": 90,
-        "statements": 90
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
       }
     }
   },
@@ -110,6 +116,7 @@
     "@commitlint/config-conventional": "9.1.2",
     "@testing-library/jest-dom": "5.11.9",
     "@testing-library/react": "11.2.3",
+    "@types/enzyme": "3.10.8",
     "@types/fontfaceobserver": "0.0.6",
     "@types/jest": "25.1.4",
     "@types/node": "14.6.4",
@@ -127,6 +134,8 @@
     "chalk": "4.1.0",
     "cross-env": "7.0.2",
     "devmoji": "2.1.9",
+    "enzyme": "3.11.0",
+    "enzyme-adapter-react-16": "1.15.6",
     "eslint-config-prettier": "6.11.0",
     "eslint-plugin-prettier": "3.1.4",
     "eslint-plugin-react-hooks": "4.1.0",

@@ -17,6 +17,7 @@
 /client/.cra-template-rb
 /client/template
 /client/yarn-error.log
+/client/**/__snapshots__
 
 /server/node_modules
 /server/yarn-error.log

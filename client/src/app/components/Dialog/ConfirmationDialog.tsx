@@ -5,13 +5,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Icon from '@material-ui/core/Icon';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import createStyles from '@material-ui/core/styles/createStyles';
+import withStyles from '@material-ui/core/styles/withStyles';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/translations';
 import { DefaultButton } from '../Button';
 
-const useStyles = makeStyles(theme => ({
+const style = createStyles(theme => ({
   title: {
     paddingLeft: theme.spacing(1),
   },
@@ -22,15 +23,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface IProps {
+  classes: any;
   contentText: string;
   open: boolean;
   handleClose: () => void;
   handleConfirm: () => void;
 }
 
-export default function ConfirmationDialog(props: IProps) {
-  const { contentText, open, handleClose, handleConfirm } = props;
-  const classes = useStyles();
+function ConfirmationDialog(props: IProps) {
+  const { classes, contentText, open, handleClose, handleConfirm } = props;
   const { t } = useTranslation();
 
   return (
@@ -64,3 +65,5 @@ export default function ConfirmationDialog(props: IProps) {
     </Dialog>
   );
 }
+
+export default withStyles(style)(ConfirmationDialog);

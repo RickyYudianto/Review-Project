@@ -1,13 +1,13 @@
-import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { useInjectReducer } from '../../../utils/redux-injectors';
-import { Navbar } from '../../components/Navbar';
+import Navbar from '../../components/Navbar';
 import { NotFoundPage } from '../../components/NotFoundPage/Loadable';
-import { Sidebar } from '../../components/Sidebar';
+import Sidebar from '../../components/Sidebar';
 import { PathConstant } from '../../constants/path.constant';
 import { UserTypeEnum } from '../../models/user-type.enum';
 import routes from '../../routes/home.routes';
