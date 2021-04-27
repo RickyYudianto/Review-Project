@@ -89,6 +89,7 @@ Here is step by step to operate this project.
 * `Reviewees field for employee reviewees. Employee will give feedback to reviewees`
 * `Save button to add or update employee's data`
 * `Cancel button to go back to list page`
+* `Default password for employee is 123456`
 
 #### Performance Review Page
 
