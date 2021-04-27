@@ -9,13 +9,13 @@
     "db:seed:undo": "sequelize db:seed:undo:all",
     "db:seed": "sequelize db:seed:all",
     "start": "nodemon index.ts",
-    "server:init": "yarn db:migration && yarn db:seed && yarn start",
+    "server:init": "yarn db:migration:undo && yarn db:migration && yarn db:seed:undo && yarn db:seed && yarn start",
     "db:migration:undo:prod": "cross-env NODE_ENV=production sequelize db:migrate:undo:all",
     "db:migration:prod": "cross-env NODE_ENV=production sequelize db:migrate",
     "db:seed:undo:prod": "cross-env NODE_ENV=production sequelize db:seed:undo:all",
     "db:seed:prod": "cross-env NODE_ENV=production sequelize db:seed:all",
     "start:prod": "cross-env NODE_ENV=production nodemon index.ts",
-    "server:init:prod": "yarn db:migration:prod && yarn db:seed:prod && yarn start:prod"
+    "server:init:prod": "yarn db:migration:undo:prod && yarn db:migration:prod && yarn db:seed:undo:prod && yarn db:seed:prod && yarn start:prod"
   },
   "engines": {
     "node": ">=12.13.0"
