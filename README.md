@@ -19,6 +19,8 @@ Run command **`docker compose up --build -d`** and wait until all of the images 
 * `localhost:8000` is for the server / API;
 * `localhost:3306` is for the mysql;
 * `localhost:8080` is for the phpmyadmin;
+  * `Username: root`
+  * `Password: root` 
 
 ## Technology Stack
 ### `Client`
