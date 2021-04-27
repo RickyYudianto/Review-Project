@@ -46,6 +46,7 @@ services:
       - 8000:8000
     volumes:
       - ./server:/app
+      - /app/node_modules
     links:
       - mysql
     command: dockerize -wait tcp://mysql:3306 -timeout 300s -wait-retry-interval 10s yarn server:init:prod
@@ -60,6 +61,7 @@ services:
       - 3000:3000
     volumes:
       - ./client/src:/app/src
+      - /app/node_modules
     links:
       - server
     command: yarn start
